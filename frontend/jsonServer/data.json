@@ -1,0 +1,19 @@
+{
+  "places" : [
+  {
+    "city" : "Delhi",
+    "country" : "India",
+    "image" : "https://cdn.britannica.com/37/189837-050-F0AF383E/New-Delhi-India-War-Memorial-arch-Sir.jpg"
+  },
+  {
+    "city" : "Puglia",
+    "country" : "Italy",
+    "image" :   "https://static-wix-blog.wix.com/photography/2017/04/13131389_986110254757703_1395206472781164079_o.jpg"
+  },
+  {
+    "city" : "Puglia",
+    "country" : "Italy",
+    "image" :   "https://static-wix-blog.wix.com/photography/2017/04/13131389_986110254757703_1395206472781164079_o.jpg"
+  }
+]
+}
