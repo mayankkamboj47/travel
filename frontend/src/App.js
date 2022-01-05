@@ -4,6 +4,7 @@ import Home from './Home';
 import { sampleDetailsCard } from './Card';
 import Nav from './Nav';
 import Profile from './Profile';
+import Search from './Search';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/card" element={sampleDetailsCard} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="search/:query" element={<Search />} />
       </Routes>
     </BrowserRouter>
   );

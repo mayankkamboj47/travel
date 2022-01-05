@@ -11,6 +11,7 @@ import { sampleDetailsCard } from './Card';
 export default function Profile() {
   return (
     <Container maxW={1600}>
+      <Heading display="inline-block" fontSize="2xl" pr="1rem">Welcome, </Heading>
       <EditableUsername />
       <Heading>Your Wishlist</Heading>
       {sampleDetailsCard}
@@ -27,9 +28,8 @@ function EditableUsername() {
       defaultValue="John Doe"
       fontSize="2xl"
       isPreviewFocusable={false}
-      display="flex"
+      display="inline-flex"
       style={{ gap: '1rem' }}
-      my="1rem"
     >
       <EditablePreview />
       <EditableInput />
