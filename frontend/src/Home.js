@@ -3,14 +3,12 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import Hero from './Hero';
-import Nav from './Nav';
 import { ImageCard } from './Card';
 import useRemote from './hooks';
 
 function Home() {
   return (
     <>
-      <Nav />
       <Hero />
       <Container maxW={1600}>
         <Places />

@@ -66,3 +66,22 @@ export function DetailsCard({
     </Flex>
   );
 }
+
+export const sampleDetailsCard = (
+  <DetailsCard
+    image="https://a0.muscache.com/pictures/4686147/5b0c1802_original.jpg"
+    title="Amsterdam Apartment + Southgarden"
+    caption="Entire home/apartment in Noord-Holland"
+    rating={4.3}
+    reviews={47}
+    price="$49.0"
+    amenities={['Refrigerator',
+      'Piano',
+      'Dishes and silverware',
+      'Heating',
+      'Hair dryer',
+      'Body soap',
+      'Wifi',
+      'Shampoo']}
+  />
+);
