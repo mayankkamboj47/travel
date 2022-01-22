@@ -46,7 +46,7 @@ app.post('/login', passport.authenticate('local', {
 
 app.post('/register', async (req, res) => {
     try {
-        if (await User.findOne({name: req.body.name}) != null) {
+        if ((await User.findOne({name: req.body.name})) != null) {
             res.send("User already exists")
         }
         else {
@@ -77,11 +77,5 @@ function checkAuthenticated(req, res, next) {
     res.redirect('/login')
 }
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect('/')
-    }
-    next()
-}
 
 app.listen(3000, () => console.log('Server Started'))

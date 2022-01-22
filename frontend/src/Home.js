@@ -1,14 +1,38 @@
 import {
   Container, Heading, Text, Flex, Spinner,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import Hero from './Hero';
 import { ImageCard } from './Card';
 import useRemote from './hooks';
+import FilterBar from './Filterbar';
 
 function Home() {
+  // Toggles. Rule : use false as the default state for toggles
+  const [, setFeatured] = useState(false);
+  const [, setKitchen] = useState(false);
   return (
     <>
+      <FilterBar filterOptions={{
+        toggles: { featured: setFeatured, kitchen: setKitchen },
+        price: {
+          min: 1,
+          max: 100,
+          currentMin: 4,
+          currentMax: 92,
+          onMinChange: console.log,
+          onMaxChange: console.log,
+        },
+        date: {
+          min: 1,
+          max: 100,
+          currentMin: 4,
+          currentMax: 92,
+          onMinChange: console.log,
+          onMaxChange: console.log,
+        },
+      }}
+      />
       <Hero />
       <Container maxW={1600}>
         <Places />

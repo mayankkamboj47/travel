@@ -6,16 +6,12 @@ import {
 import { faCheck, faEdit, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { sampleDetailsCard } from './Card';
-
 export default function Profile() {
   return (
     <Container maxW={1600}>
       <Heading display="inline-block" fontSize="2xl" pr="1rem">Welcome, </Heading>
       <EditableUsername />
       <Heading>Your Wishlist</Heading>
-      {sampleDetailsCard}
-      {sampleDetailsCard}
     </Container>
   );
 }

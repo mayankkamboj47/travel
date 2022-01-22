@@ -1,0 +1,14 @@
+Filterbar plan (before executing this, take into consideration where we are getting our data from and all of that).
+
+If the data is on the frontend, then we can just filter it directly instead of repetitive fetching
+
+If the data is not on the frontend, which it likely won't be because we'll implement pagination, we will need a 
+fetch-based way of getting the data, as well as updating the view immediately. 
+
+I think just changing the search query is an effective way, and that delegates the filter work to the backend
+
+On the frontend and backend, we'll have to plan the search properly.
+
+When the query is changed, we need to show a spinner until our query is loading (we have a hook for this)
+
+
