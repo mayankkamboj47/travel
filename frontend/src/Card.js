@@ -68,7 +68,7 @@ export function DetailsCard({
   );
 }
 
-export function Cards() {
+export function Cards() { // REMOVE THIS !
   const [data, loading, error] = useRemote('http://localhost:8081/places');
   if (loading) return <p>Cards are loading...</p>;
   if (error) return <p>Some error fetching cards from backend</p>;

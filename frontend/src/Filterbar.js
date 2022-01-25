@@ -94,14 +94,3 @@ export function DrawerSlider({
     </Menu>
   );
 }
-/**
- *
- * The plan :
- * Toggles contains the function values and names of the toggles.
- * We could create so and so buttons with the values same as the values earlier.
- * On clicking each of those buttons, what happens is that the corresponding property of the
- * toggles, the corresponding trigger function is called with the state of the button
- *
- *
- * Now,  we could create a way to filter it out.
- */

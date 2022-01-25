@@ -5,7 +5,6 @@ import { Cards } from './Card';
 import Nav from './Nav';
 import Profile from './Profile';
 import Search from './Search';
-import SampleLoader from './SampleLoader';
 
 function App() {
   return (
@@ -16,7 +15,6 @@ function App() {
         <Route path="/card" element={<Cards />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="search/:query" element={<Search />} />
-        <Route path="/sample" element={<SampleLoader />} />
       </Routes>
     </BrowserRouter>
   );
