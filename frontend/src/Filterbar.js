@@ -8,7 +8,7 @@ import { useState } from 'react';
 export default function FilterBar({ filterOptions }) {
   const { toggles, ...sliders } = filterOptions;
   const toggleButtons = Object.keys(toggles).map((key) => {
-    const toggle = toggles[key];
+    const toggle = toggles[key][1];
     return <ToggleButton onClick={toggle} value={key} key={key} />;
   });
   const sliderButtons = Object.keys(sliders).map((key) => {
@@ -39,8 +39,9 @@ function ToggleButton({ onClick, value }) {
       type="button"
       onClick={
     () => {
-      setIsOn(!isOn);
-      onClick(isOn);
+      const newIsOn = !isOn;
+      setIsOn(newIsOn);
+      onClick(newIsOn);
     }
 }
       style={style}

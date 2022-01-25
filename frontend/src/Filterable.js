@@ -1,14 +1,36 @@
 import { useState } from 'react';
 import useRemote from './hooks';
 import FilterBar from './Filterbar';
-/**
- * Sample usage :
- * <Filterable dataSource='http://localhost:8080/places'
- * map={(place)=><Card title={place.city} subtitle={place.country} />}
- */
-export default function Filterable({ dataSource, map, filterOptions }) {
-  const [itemsURI, setItemsURI] = useState(dataSource);
-  const [data, loading, error] = useRemote(itemsURI);
+
+export default function Filterable({
+  dataSource, map,
+}) {
+  // dataSource will be used to fetch
+  const [featured, setFeatured] = useState(false);
+  const [kitchen, setKitchen] = useState(false);
+
+  const [data, loading, error] = useRemote(kitchen ? 'http://localhost:8081/places' : dataSource);
+
+  const filterOptions = {
+    toggles: { Featured: [featured, setFeatured], Kitchen: [kitchen, setKitchen] },
+    price: {
+      min: 1,
+      max: 100,
+      currentMin: 4,
+      currentMax: 92,
+      onMinChange: console.log,
+      onMaxChange: console.log,
+    },
+    date: {
+      min: 1,
+      max: 100,
+      currentMin: 4,
+      currentMax: 92,
+      onMinChange: console.log,
+      onMaxChange: console.log,
+    },
+  };
+
   if (loading) return <p>Loading ...</p>;
   if (error) return <p>Error</p>;
   return (

@@ -1,37 +1,31 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {
   Container, Heading, Text, Flex, Spinner,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React from 'react';
 import Hero from './Hero';
-import { ImageCard } from './Card';
+import { DetailsCard, ImageCard } from './Card';
 import useRemote from './hooks';
-import FilterBar from './Filterbar';
+import Filterable from './Filterable';
 
 function Home() {
-  // Toggles. Rule : use false as the default state for toggles
-  const [, setFeatured] = useState(false);
-  const [, setKitchen] = useState(false);
   return (
     <>
-      <FilterBar filterOptions={{
-        toggles: { featured: setFeatured, kitchen: setKitchen },
-        price: {
-          min: 1,
-          max: 100,
-          currentMin: 4,
-          currentMax: 92,
-          onMinChange: console.log,
-          onMaxChange: console.log,
-        },
-        date: {
-          min: 1,
-          max: 100,
-          currentMin: 4,
-          currentMax: 92,
-          onMinChange: console.log,
-          onMaxChange: console.log,
-        },
-      }}
+      <Filterable
+        dataSource="http://localhost:8080/places"
+        map={({
+          amenities, title, subtitle, rating, reviews, images, price,
+        }) => (
+          <DetailsCard
+            image={images[0]}
+            title={title}
+            caption={subtitle}
+            rating={rating}
+            reviews={reviews}
+            price={price}
+            amenities={amenities}
+          />
+        )}
       />
       <Hero />
       <Container maxW={1600}>

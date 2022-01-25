@@ -12,3 +12,51 @@ On the frontend and backend, we'll have to plan the search properly.
 When the query is changed, we need to show a spinner until our query is loading (we have a hook for this)
 
 
+
+
+Filterbar is not filtering. Do something about this.                done
+  Make actual filter URLs after deciding on a common format w Karan
+
+Replace the airbnb string with ashray
+
+Pagination 
+Main hotel page
+  + Reviews
+  Book hotel option (like a side widget maybe, see Arundhati's website)
+  Add to wishlist
+
+Search functionality
+Change the airbnb thing, make it different
+Scrape data again if you have time
+
+Prepare the requirements list for the backend
+
+  /hotels
+  /hotels/id    Give data for a specific hotel with reviews
+  PUT /wishlist
+    {hotel : _id}
+  GET /wishlist
+  POST /book
+    {hotel : _id}
+  POST /login
+    {username : ___, password : ___}
+  POST /auth/google
+  POST /auth/facebook
+  POST /signup
+  GET /logout
+  /search/name='sth'&place='Jamshedpur'&price='<2&>4'
+    - Decide the formatting for the search string, and make a quick parser 
+    - See if there is a quick way to encode and decode objects to url strings, 
+    which will make us able to skip the former step. 
+
+
+Filterbar (to do when time is free) : 
+
+What is our problem ?
+We need to filter things based on what the user has chosen.
+1. We need to decide, how to filter things, since we have 2 different kinds of filters, one is a button, other is a slider
+   a. Easy. Just decide based on the filterOptions property
+   b. Filteroptions property is incomplete, we will need to pass both the state variable and the function to change it
+   c. Now what do we do with the state variable ? We could use it to filter.
+      i. What does this mean ?
+
