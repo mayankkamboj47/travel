@@ -1,22 +1,22 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-fragments */
-import { Heading, Flex } from '@chakra-ui/react';
+import { Heading, Flex, Box, Text} from '@chakra-ui/react';
 import React from 'react';
 
 export default function HotelPage({
   title, rating, reviews, location, images, description,
 }) {
   return (
-    <React.Fragment>
+    <Box maxW="1600px" m="0 auto" padding="0 2rem">
       <Heading>{title}</Heading>
-      <RatingReviewsAndLocation rating={rating} reviews={reviews} location={location} />
+      <RatingReviewsAndLocation location={location} rating={rating} />
       <ImagesHero images={images} />
       <Flex>
         <Description description={description} />
         <Booker />
       </Flex>
       <Reviews numreviews={reviews} rating={rating} />
-    </React.Fragment>
+    </Box>
   );
 }
 /*{"rooms": {"guests": 16.0, "bedrooms": 5.0, "beds": 5.0, "bathrooms": 6.5}, 
@@ -29,20 +29,15 @@ export default function HotelPage({
  "description" : "This is the best hotel there is period"
  "location" : "Mahabaleshwar, Maharashtra, India"}
  */
-function RatingReviewsAndLocation({ rating, reviews, location }) {
+function RatingReviewsAndLocation({ rating, location }) {
   return (
-    <Flex>
+    <Flex style={{gap:'1rem'}}>
       <div>
-        ★
         {' '}
-        {rating}
+        {location}
       </div>
-      <div>
-        {reviews}
-        {' '}
-        reviews
-      </div>
-      <div>{location}</div>
+      ★
+      <div>{rating}</div>
     </Flex>
   );
 }
@@ -52,6 +47,7 @@ function ImagesHero({ images }) {
     display: 'grid',
     gridTemplateColumns: '2fr 1fr 1fr',
     gridTemplateRows: '1fr 1fr',
+    gap: '0.25rem',
   };
   const mainImageStyle = {
     gridRowStart: 1,
@@ -70,19 +66,19 @@ function ImagesHero({ images }) {
 }
 
 function Description({ description }) {
-  return (<p>{description}</p>);
+  return (<Text m="1rem 2rem 2rem 0rem">{description}</Text>);
 }
 
 function Reviews({ numreviews, rating }) {
   return (
     <div>
-      <Flex>
-        <Heading>
+      <Flex >
+        <Heading mr="1rem" size="md" >
           {numreviews}
           {' '}
           Reviews
         </Heading>
-        <Heading>
+        <Heading size="md">
           ★
           {' '}
           {rating}

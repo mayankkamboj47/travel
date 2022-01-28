@@ -19,7 +19,7 @@ export default function Nav() {
     <Flex justifyContent="center" bgColor="black">
       <Flex as="nav" alignItems="center" p="0.5rem 2rem" justifyContent="space-between" flex="1" maxW="1600px">
         <Link to="/">
-          <Box className="logo" color="white" p="0 2rem 0 0">Airbnb</Box>
+          <Box className="logo" color="white" p="0 2rem 0 0">Aashray</Box>
         </Link>
         <InputGroup maxW="70rem">
           <Input
