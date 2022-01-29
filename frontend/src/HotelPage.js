@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-fragments */
-import { Heading, Flex, Box, Text} from '@chakra-ui/react';
+import { Heading, Flex, Box, Text, Tag, Button, Input, Select} from '@chakra-ui/react';
 import React from 'react';
 
 export default function HotelPage({
@@ -11,10 +11,8 @@ export default function HotelPage({
       <Heading>{title}</Heading>
       <RatingReviewsAndLocation location={location} rating={rating} />
       <ImagesHero images={images} />
-      <Flex>
-        <Description description={description} />
-        <Booker />
-      </Flex>
+      <Booker rating={rating} price="$90" numreviews={reviews}/>
+      <Description description={description} />
       <Reviews numreviews={reviews} rating={rating} />
     </Box>
   );
@@ -70,8 +68,10 @@ function Description({ description }) {
 }
 
 function Reviews({ numreviews, rating }) {
+  const reviewData= [{user: 'Ashok', text: 'Great place!', verified: true},{user: 'Kritin', text: 'excellent hospitality services', verified: false}]
   return (
     <div>
+      <Button mb="1rem"> Write a review </Button>
       <Flex >
         <Heading mr="1rem" size="md" >
           {numreviews}
@@ -84,12 +84,51 @@ function Reviews({ numreviews, rating }) {
           {rating}
         </Heading>
       </Flex>
+      {reviewData.map(({user, text, verified})=> {
+        return (
+        <Box mt="1rem" w="fit-content" border="1px solid grey" borderRadius="1rem" p="0.5rem 1rem 1rem 1rem">
+          <Heading size="md">
+            {user} {verified?<Tag variant='outline' ml='1rem'>verified user</Tag>:''}
+          </Heading>
+          <Text size="sm">
+            {text} 
+          </Text>
+        </Box> 
+        );
+      }
+    )
+  }
     </div>
   );
 }
 
-function Booker() {
+function Booker({rating, price, numreviews}) {
   return (
-    <div />
+    <Box float="right" padding="1rem" bgColor="gray.100" mt="2rem" minW="400px" borderRadius="1rem">
+      <Flex justifyContent="space-between" mb="1rem" alignItems="center">
+        <div>
+          <Text fontSize="1.5rem">{price}/night</Text>
+        </div>
+        <div>
+        ★ {rating}
+        </div>
+        <div>
+        {numreviews} reviews
+        </div>
+      </Flex>
+      <div>
+        <Input variant="filled" w="50%" placeholder="Check-in Date"/>
+        <Input variant="filled" w="50%" placeholder="Check-out Date"/>
+        <Select variant="filled">
+          <option>1 Guest</option>
+          <option>2 Guests</option>
+          <option>3 Guests</option>
+          <option>4 Guests</option>
+          <option>5 Guests</option>
+          <option>6 Guests</option>
+        </Select>
+      </div>
+      <Button w="100%" mt="0.5rem" bgColor="#97c7ae">Reserve</Button>
+    </Box>
   );
 }
