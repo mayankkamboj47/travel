@@ -24,6 +24,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/card" element={<Cards />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SignUpForm />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="search/:query" element={<Search />} />
         <Route path="/hotelpage" element={<HotelPage title={hotelData.title} rating={hotelData.rating} 
