@@ -6,6 +6,7 @@ import Nav from './Nav';
 import Profile from './Profile';
 import Search from './Search';
 import HotelPage from './HotelPage';
+import { LoginForm, SignUpForm } from './Forms';
 
 function App() {
   const hotelData = {
