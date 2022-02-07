@@ -2,6 +2,7 @@
 import {
   Box, Button, Heading, Text,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -16,9 +17,11 @@ export default function Hero() {
         Not sure where to go ? Perfect.
       </Heading>
       <Button borderRadius="1.5rem" colorScheme="gray">
-        <Text bgGradient="linear-gradient(0deg, #ff253a, purple)" backgroundClip="text">
-          I'm Flexible
-        </Text>
+        <Link to="/card">
+          <Text bgGradient="linear-gradient(0deg, #ff253a, purple)" backgroundClip="text">
+            I'm Flexible
+          </Text>
+        </Link>
       </Button>
     </Box>
   );

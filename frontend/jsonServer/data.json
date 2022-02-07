@@ -10,5 +10,12 @@
     "country" : "Italy",
     "image" :   "https://static-wix-blog.wix.com/photography/2017/04/13131389_986110254757703_1395206472781164079_o.jpg"
   }
-]
+],
+  "otherplaces" : [
+    {
+      "city" : "Kings Landing",
+      "country" : "The Crownlands",
+      "image" : "https://westeros.org/kingslanding.jpg"
+    }
+  ]
 }

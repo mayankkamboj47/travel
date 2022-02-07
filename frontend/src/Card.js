@@ -4,6 +4,7 @@ import {
 import { faHeart, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import useRemote from './hooks';
 
 export function ImageCard({ image, title, subtitle }) {
   const styles = {
@@ -38,11 +39,11 @@ export function DetailsCard({
     right: 0,
   };
   return (
-    <Flex w="100%" maxW="50rem" gap="1rem" style={{ lineHeight: 1.8 }} py="1rem">
-      <Image src={image} flex={1} maxW="20rem" />
-      <Box flex={1} position="relative">
+    <Flex w="100%" maxW="55rem" gap="1rem" style={{ lineHeight: 1.8 }} py="1rem">
+      <Image src={image} flex={4} w="15rem" h="12rem" objectFit="cover" />
+      <Box flex={5} position="relative">
         <Text fontSize="sm" color="gray.500">{caption}</Text>
-        <Heading size="md">{title}</Heading>
+        <Heading size="md" maxW="20rem">{title}</Heading>
         {amenities.map(
           // eslint-disable-next-line comma-dangle
           (amenity) => <Text as="span" mr="1rem" wordBreak="keep-all" fontSize="sm" color="gray.500">{amenity}</Text>
@@ -50,15 +51,15 @@ export function DetailsCard({
         <Text style={ratingBoxStyle}>
           <FontAwesomeIcon icon={faStar} />
           {' '}
-          {rating}
+          {rating || 'No rating'}
           {' '}
           (
-          {reviews}
+          {reviews || 'No'}
           {' '}
           Reviews)
         </Text>
         <Text style={priceBoxStyle}>
-          <strong>{price}</strong>
+          <strong>{`${price} `}</strong>
           /night
         </Text>
         <IconButton icon={<FontAwesomeIcon icon={faHeart} />} style={heartStyle} />
@@ -67,21 +68,25 @@ export function DetailsCard({
   );
 }
 
-export const sampleDetailsCard = (
-  <DetailsCard
-    image="https://a0.muscache.com/pictures/4686147/5b0c1802_original.jpg"
-    title="Amsterdam Apartment + Southgarden"
-    caption="Entire home/apartment in Noord-Holland"
-    rating={4.3}
-    reviews={47}
-    price="$49.0"
-    amenities={['Refrigerator',
-      'Piano',
-      'Dishes and silverware',
-      'Heating',
-      'Hair dryer',
-      'Body soap',
-      'Wifi',
-      'Shampoo']}
-  />
-);
+export function Cards() { // REMOVE THIS !
+  const [data, loading, error] = useRemote('http://localhost:8081/places');
+  if (loading) return <p>Cards are loading...</p>;
+  if (error) return <p>Some error fetching cards from backend</p>;
+  return (
+    <>
+      {data.map(({
+        title, subtitle, rating, reviews, images, amenities, price,
+      }) => (
+        <DetailsCard
+          image={images[0]}
+          title={title}
+          caption={subtitle}
+          rating={rating}
+          reviews={reviews}
+          price={price}
+          amenities={amenities}
+        />
+      ))}
+    </>
+  );
+}

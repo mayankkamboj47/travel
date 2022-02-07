@@ -63,7 +63,7 @@ app.get('/protected', checkAuthenticated, (req, res) => {
 
 app.post('/register', async (req, res) => {
     try {
-        if (await User.findOne({name: req.body.name}) != null) {
+        if ((await User.findOne({name: req.body.name})) != null) {
             res.send("User already exists")
         }
         else {
