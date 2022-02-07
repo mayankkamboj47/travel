@@ -9,12 +9,14 @@ const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
 
+
 const initializePassport = require('./passport-config/passport-config')
 initializePassport (
     passport, 
     name => User.findOne({name: name}),
     id => User.findOne({_id: id})
 )
+require("./passport-config/passport-google")
 
 mongoose.connect(process.env.DATABASE_URL)
 const db = mongoose.connection
@@ -35,14 +37,29 @@ app.use(passport.session())
 const userRouter = require('./routes/users')
 app.use('/users', userRouter)
 
-app.get('/', checkAuthenticated, (req, res) => {
-    res.send("You're logged in!")
+app.get('/', (req, res) => {
+    res.send('<a href="/auth/google">Authenticate with Google</a>')
+})
+
+app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }))
+
+app.get('/google/callback', passport.authenticate('google', {
+    successRedirect: '/protected',
+    failureRedirect: '/login'
+}))
+
+app.get('/login', alreadyLoggedIn, (req, res) => {
+    res.send("Login Page")
 })
 
 app.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/protected',
     failureRedirect: '/login'
 }))
+
+app.get('/protected', checkAuthenticated, (req, res) => {
+    res.send("Hello!")
+})
 
 app.post('/register', async (req, res) => {
     try {
@@ -77,10 +94,11 @@ function checkAuthenticated(req, res, next) {
     res.redirect('/login')
 }
 
-function isLoggedIn(req, res, next) {
+function alreadyLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
-        return res.redirect('/')
+        return res.redirect('/protected')
     }
+
     next()
 }
 
