@@ -1,0 +1,8 @@
+/hotels/id    Give data for a specific hotel with reviews
+PUT user/wishlist {hotel : _id}
+GET user
+POST /bookhotel {hotel : _id}
+/search/name='sth'&place='Jamshedpur'&price='<2&>4'
+- Decide the formatting for the search string, and make a quick parser 
+- See if there is a quick way to encode and decode objects to url strings, 
+which will make us able to skip the former step. 
