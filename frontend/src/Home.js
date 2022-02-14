@@ -4,10 +4,10 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import Hero from './Hero';
-import { DetailsCard, ImageCard } from './Card';
+import { ImageCard } from './Card';
 import useRemote from './hooks';
 import Filterable from './Filterable';
-
+import { DetailsCard } from './Card';
 function Home() {
   return (
     <>
@@ -29,7 +29,7 @@ function Home() {
       />
       <Hero />
       <Container maxW={1600}>
-        <Places />
+        <Cities />
         <About />
       </Container>
     </>
@@ -38,8 +38,8 @@ function Home() {
 
 export default Home;
 
-function Places() {
-  const [data, loading, error] = useRemote('http://localhost:8080/places');
+function Cities() {
+  const [data, loading, error] = useRemote('http://localhost:8081/cities');
   if (loading) return <Spinner />;
   if (error) return <Heading>Something went wrong</Heading>;
   return (

@@ -1,3 +1,12 @@
+Plan for the searchbar : 
+
+On the frontend : 
+let searchParams = new URLSearchParams({ hotel : 'sth', place : 'something'}).toString()
+
+On the backend you'll just get all the parameters in req.query, and you can just consume them and send data
+forward. If we need a better processing API, we'll make it. 
+
+
 Filterbar plan (before executing this, take into consideration where we are getting our data from and all of that).
 
 If the data is on the frontend, then we can just filter it directly instead of repetitive fetching
