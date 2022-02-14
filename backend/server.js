@@ -8,7 +8,7 @@ const User = require('./models/User')
 const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
-
+const cors = require('cors')
 const initializePassport = require('./passport-config/passport-config')
 initializePassport (
     passport, 
@@ -23,6 +23,7 @@ const db = mongoose.connection
 db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(flash())
@@ -62,19 +63,19 @@ app.get('/login', alreadyLoggedIn, (req, res) => {
     res.send("Login Page")
 })
 
-app.post('/login', passport.authenticate('local', {
-    successRedirect: '/protected',
-    failureRedirect: '/login'
-}))
+app.post('/login', passport.authenticate('local'), (req, res)=>{
+    res.status(200).json(req.user)
+})
 
 app.get('/protected', checkAuthenticated, (req, res) => {
     res.send("Hello!")
 })
 
 app.post('/register', async (req, res) => {
+    console.log('Registering', req.body.name, 'with', req.body.password)
     try {
         if ((await User.findOne({name: req.body.name})) != null) {
-            res.send("User already exists")
+            return res.status(400).json({message : 'User already exists'})
         }
         else {
             const hashedPassword = await bcrypt.hash(req.body.password, 10)
@@ -83,6 +84,7 @@ app.post('/register', async (req, res) => {
                 password: hashedPassword
             })
             const newUser = await user.save()
+            console.log('registered')
             res.status(201).json(newUser)
         }
     } catch(err) {
