@@ -39,5 +39,18 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      function post(url, data){
+        return fetch(
+        url, 
+        {
+          withCredentials : true, 
+          method : 'POST', 
+          headers : {'Content-Type' : 'application/json'}, 
+          body : JSON.stringify(data)
+        }
+        )
+      }
+    </script>
   </body>
 </html>
