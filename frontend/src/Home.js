@@ -4,15 +4,15 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import Hero from './Hero';
-import { ImageCard } from './Card';
+import { ImageCard, DetailsCard } from './Card';
 import useRemote from './hooks';
 import Filterable from './Filterable';
-import { DetailsCard } from './Card';
+
 function Home() {
   return (
     <>
       <Filterable
-        dataSource="http://localhost:8080/places"
+        dataSource="http://localhost:8081/places"
         map={({
           amenities, title, subtitle, rating, reviews, images, price,
         }) => (

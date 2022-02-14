@@ -16,13 +16,13 @@ export default function Hero() {
       <Heading mb="1rem" color="white">
         Not sure where to go ? Perfect.
       </Heading>
-      <Button borderRadius="1.5rem" colorScheme="gray">
-        <Link to="/card">
+      <Link to="/card">
+        <Button borderRadius="1.5rem" colorScheme="gray">
           <Text bgGradient="linear-gradient(0deg, #ff253a, purple)" backgroundClip="text">
             I'm Flexible
           </Text>
-        </Link>
-      </Button>
+        </Button>
+      </Link>
     </Box>
   );
 }

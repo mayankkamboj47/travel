@@ -8,7 +8,7 @@ import FilterBar from './Filterbar';
  * Usage :
  *
  *    <Filterable
-        dataSource="http://localhost:8080/places"
+        dataSource="http://localhost:8081/places"
         map={({
           amenities, title, subtitle, rating, reviews, images, price,
         }) => (
@@ -63,7 +63,7 @@ export default function Filterable({
   );
 
   function URIString(dataSource) {
-    return `${dataSource}/${URLSearchParams({ kitchen, featured }).toString()}`;
+    return `${dataSource}?${new URLSearchParams({ kitchen, featured }).toString()}`;
   }
 }
 
