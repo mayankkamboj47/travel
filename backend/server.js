@@ -15,6 +15,8 @@ initializePassport (
     name => User.findOne({name: name}),
     id => User.findOne({_id: id})
 )
+require("./passport-config/passport-google")
+require("./passport-config/passport-facebook")
 
 mongoose.connect(process.env.DATABASE_URL)
 const db = mongoose.connection
@@ -35,14 +37,36 @@ app.use(passport.session())
 const userRouter = require('./routes/users')
 app.use('/users', userRouter)
 
-app.get('/', checkAuthenticated, (req, res) => {
-    res.send("You're logged in!")
+app.get('/', (req, res) => {
+    res.send('<a href="/auth/google">Authenticate with Google</a> <a href="/auth/facebook">Authenticate with Facebook</a>')
+})
+
+app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }))
+
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email', 'profile']}))
+
+app.get('/google/callback', passport.authenticate('google', {
+    successRedirect: '/protected',
+    failureRedirect: '/login'
+}))
+
+app.get('facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/protected',
+    failureRedirect: '/login'
+}))
+
+app.get('/login', alreadyLoggedIn, (req, res) => {
+    res.send("Login Page")
 })
 
 app.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/protected',
     failureRedirect: '/login'
 }))
+
+app.get('/protected', checkAuthenticated, (req, res) => {
+    res.send("Hello!")
+})
 
 app.post('/register', async (req, res) => {
     try {
@@ -65,7 +89,7 @@ app.post('/register', async (req, res) => {
 
 app.delete('/logout', (req, res) => {
     req.logOut()
-    req.redirect('/login')
+    res.redirect('/login')
 })
 
 // Login checks
@@ -77,5 +101,12 @@ function checkAuthenticated(req, res, next) {
     res.redirect('/login')
 }
 
+function alreadyLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect('/protected')
+    }
+
+    next()
+}
 
 app.listen(3000, () => console.log('Server Started'))
