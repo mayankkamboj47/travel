@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const hotelSchema = new mongoose.Schema({
+    _id: Number,
     rooms: {
         guests: Number,
         bedrooms: Number,

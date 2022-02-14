@@ -34,8 +34,11 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-const userRouter = require('./routes/users')
-app.use('/users', userRouter)
+const userRouter = require('./routes/user')
+app.use('/user', userRouter)
+
+const hotelRouter = require('./routes/hotel')
+app.use('/hotel', hotelRouter)
 
 app.get('/', (req, res) => {
     res.send('<a href="/auth/google">Authenticate with Google</a> <a href="/auth/facebook">Authenticate with Facebook</a>')
