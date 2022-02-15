@@ -3,6 +3,7 @@ const router = express.Router()
 const User = require('../models/User')
 
 router.get('/', (req, res) => {
+    console.log(req.user)
     const user = req.user || null
     res.json(user)
 })

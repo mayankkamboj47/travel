@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import axios from 'axios';
 
 export function LoginForm() {
   const [username, setUsername] = useState('');
@@ -27,7 +28,7 @@ export function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button width="100%" maxWidth="20rem" m={5} type="submit">Login</Button>
+        <Button width="100%" maxWidth="20rem" m={5} type="submit" onClick={submitForm}>Login</Button>
         <Heading size="md">Login Using</Heading>
         <OAuthButtons />
         <Link to="/signup">
@@ -36,6 +37,20 @@ export function LoginForm() {
       </Flex>
     </form>
   );
+  // ERROR : /user requests from frontend are not giving us the user even when cookie is set
+  function submitForm(e) {
+    e.preventDefault();
+    axios.post('http://localhost:3001/login', { name: username, password }, { withCredentials: true }).then(console.log).then(
+      () => axios.get('http://localhost:3001/user', {}, { withCredentials: true }),
+    ).then(
+      (response) => {
+        console.log('/user gave', response.data);
+      },
+    // eslint-disable-next-line newline-per-chained-call
+    ).catch(
+      (err) => console.error(err),
+    );
+  }
 }
 
 export function SignUpForm() {
@@ -53,7 +68,7 @@ export function SignUpForm() {
           onChange={(e) => setUsername(e.target.value)}
         />
         <PasswordInput placeholder="Pick a password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <Button width="100%" maxWidth="20rem" m={5} type="submit">Create an Account</Button>
+        <Button width="100%" maxWidth="20rem" m={5} type="submit" onClick={submitForm}>Create an Account</Button>
         <Heading size="md">Sign up using</Heading>
         <OAuthButtons />
         <Link to="/login">
@@ -62,6 +77,13 @@ export function SignUpForm() {
       </Flex>
     </form>
   );
+
+  function submitForm(e) {
+    e.preventDefault();
+    axios.post('http://localhost:3001/register', { name: username, password }).then(console.log).catch(
+      (err) => alert(err?.message),
+    );
+  }
 }
 function OAuthButtons() {
   return (

@@ -10,6 +10,11 @@ const flash = require('express-flash')
 const session = require('express-session')
 const cors = require('cors')
 const initializePassport = require('./passport-config/passport-config')
+
+app.use(cors({
+    origin : 'http://localhost:3000',
+    credentials : true
+}))
 initializePassport (
     passport, 
     name => User.findOne({name: name}),
@@ -23,7 +28,7 @@ const db = mongoose.connection
 db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
 
-app.use(cors())
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(flash())

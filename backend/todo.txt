@@ -3,3 +3,21 @@ POST /bookhotel {hotel : _id}
 - Decide the formatting for the search string, and make a quick parser 
 - See if there is a quick way to encode and decode objects to url strings, 
 which will make us able to skip the former step.
+
+
+1. Cors integration : 
+  Cookies are not being set on the frontend for some reason. Things ruled out : 
+  a. Difference between how we did it earlier and how we are doing it now
+     i. Checked on both frontend and backend
+  b. We may not be sending the cookie data from the frontend : Checked using developer
+  tools
+
+  Things not ruled out : 
+  b. Could this be a passport specific issue ? 
+
+
+req.user is simply undefined for the requests we are getting
+withCredentials is false in the response we are getting, seen in Mozilla's dev tools
+Some cookies are misusing the “SameSite“ attribute, so it won’t work as expected 2
+  1.Cookie “connect.sid” has “SameSite” policy set to “Lax” because it is missing a “SameSite” attribute, and “SameSite=Lax” is the default value for this attribute. login
+  1.Cookie “connect.sid” has “SameSite” policy set to “Lax” because it is missing a “SameSite” attribute, and “SameSite=Lax” is the default value for this attribute.
