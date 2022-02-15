@@ -34,7 +34,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="search/:query" element={<Search />} />
         <Route
-          path="/hotelpage"
+          path="/hotel/:id"
           element={(
             <HotelPage
               title={hotelData.title}

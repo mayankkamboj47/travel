@@ -3,11 +3,14 @@
 import {
   Heading, Flex, Box, Text, Tag, Button, Input, Select,
 } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
 import React from 'react';
 
 export default function HotelPage({
   title, rating, reviews, location, images, description,
 }) {
+  const { id } = useParams();
+  alert(id);
   return (
     <Box maxW="1600px" m="0 auto" padding="0 2rem">
       <Heading>{title}</Heading>

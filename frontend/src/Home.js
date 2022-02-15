@@ -14,7 +14,7 @@ function Home() {
       <Filterable
         dataSource="http://localhost:8081/places"
         map={({
-          amenities, title, subtitle, rating, reviews, images, price,
+          amenities, title, subtitle, rating, reviews, images, price, _id
         }) => (
           <DetailsCard
             image={images[0]}
@@ -24,7 +24,8 @@ function Home() {
             reviews={reviews}
             price={price}
             amenities={amenities}
-            key={images[0]}
+            key={_id}
+            link={`/hotel/${_id}`}
           />
         )}
       />

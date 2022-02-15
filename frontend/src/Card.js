@@ -3,6 +3,7 @@ import {
 } from '@chakra-ui/react';
 import { faHeart, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import useRemote from './hooks';
 
@@ -21,7 +22,7 @@ export function ImageCard({ image, title, subtitle }) {
 }
 
 export function DetailsCard({
-  image, title, caption, rating, reviews, price, amenities,
+  image, title, caption, rating, reviews, price, amenities, link
 }) {
   const priceBoxStyle = {
     position: 'absolute',
@@ -43,7 +44,7 @@ export function DetailsCard({
       <Image src={image} flex={4} w="15rem" h="12rem" objectFit="cover" />
       <Box flex={5} position="relative">
         <Text fontSize="sm" color="gray.500">{caption}</Text>
-        <Heading size="md" maxW="20rem">{title}</Heading>
+        <Link to={link}><Heading size="md" maxW="20rem">{title}</Heading></Link>
         {amenities.map(
           // eslint-disable-next-line comma-dangle
           (amenity) => <Text as="span" mr="1rem" wordBreak="keep-all" fontSize="sm" color="gray.500">{amenity}</Text>
