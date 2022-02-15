@@ -4,7 +4,7 @@ import
 }
   from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
@@ -12,6 +12,7 @@ import axios from 'axios';
 export function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   return (
     <form>
       <Flex direction="column" alignItems="center" p="3rem 0">
@@ -41,11 +42,9 @@ export function LoginForm() {
   function submitForm(e) {
     e.preventDefault();
     axios.post('http://localhost:3001/login', { name: username, password }, { withCredentials: true }).then(console.log).then(
-      () => axios.get('http://localhost:3001/user', {}, { withCredentials: true }),
+      () => axios.get('http://localhost:3001/user', { withCredentials: true }),
     ).then(
-      (response) => {
-        console.log('/user gave', response.data);
-      },
+      () => navigate('/profile'),
     // eslint-disable-next-line newline-per-chained-call
     ).catch(
       (err) => console.error(err),
@@ -56,6 +55,7 @@ export function LoginForm() {
 export function SignUpForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   return (
     <form>
       <Flex direction="column" alignItems="center" p="3rem 0">
@@ -80,7 +80,11 @@ export function SignUpForm() {
 
   function submitForm(e) {
     e.preventDefault();
-    axios.post('http://localhost:3001/register', { name: username, password }).then(console.log).catch(
+    axios.post('http://localhost:3001/register', { name: username, password }).then(
+      () => axios.post('http://localhost:3001/login', { name: username, password }, { withCredentials: true }),
+    ).then(
+      () => navigate('/profile'),
+    ).catch(
       (err) => alert(err?.message),
     );
   }

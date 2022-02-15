@@ -24,6 +24,7 @@ function Home() {
             reviews={reviews}
             price={price}
             amenities={amenities}
+            key={images[0]}
           />
         )}
       />
@@ -53,6 +54,7 @@ function Cities() {
               image={image}
               title={city}
               subtitle={country}
+              key={city}
             />
           ),
         )

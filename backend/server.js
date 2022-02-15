@@ -97,7 +97,7 @@ app.post('/register', async (req, res) => {
     }
 })
 
-app.delete('/logout', (req, res) => {
+app.get('/logout', (req, res) => {
     req.logOut()
     res.redirect('/login')
 })
