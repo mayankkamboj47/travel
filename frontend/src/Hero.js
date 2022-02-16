@@ -9,17 +9,18 @@ export default function Hero() {
     <Box
       textAlign="center"
       py="10rem"
-      background="url(https://static-wix-blog.wix.com/photography/2017/04/13131389_986110254757703_1395206472781164079_o.jpg)"
+      background="url(http://deiratravels.com/wp-content/uploads/2016/07/Indian-Tourism-1.jpg)"
       backgroundSize="cover"
+      backgroundPosition="bottom"
       maxH="100vh"
     >
       <Heading mb="1rem" color="white">
-        Not sure where to go ? Perfect.
+        Where will you go next ?
       </Heading>
       <Link to="/anywhere">
         <Button borderRadius="1.5rem" colorScheme="gray">
           <Text bgGradient="linear-gradient(0deg, #ff253a, purple)" backgroundClip="text">
-            I'm Flexible
+            Take me anywhere
           </Text>
         </Button>
       </Link>
