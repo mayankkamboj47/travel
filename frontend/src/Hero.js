@@ -16,7 +16,7 @@ export default function Hero() {
       <Heading mb="1rem" color="white">
         Not sure where to go ? Perfect.
       </Heading>
-      <Link to="/card">
+      <Link to="/anywhere">
         <Button borderRadius="1.5rem" colorScheme="gray">
           <Text bgGradient="linear-gradient(0deg, #ff253a, purple)" backgroundClip="text">
             I'm Flexible

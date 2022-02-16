@@ -11,24 +11,6 @@ import Filterable from './Filterable';
 function Home() {
   return (
     <>
-      <Filterable
-        dataSource="http://localhost:3001/hotel"
-        map={({
-          amenities, title, subtitle, rating, reviews, images, price, _id
-        }) => (
-          <DetailsCard
-            image={images[0]}
-            title={title}
-            caption={subtitle}
-            rating={rating}
-            reviews={reviews}
-            price={price}
-            amenities={amenities}
-            key={_id}
-            link={`/hotel/${_id}`}
-          />
-        )}
-      />
       <Hero />
       <Container maxW={1600}>
         <Cities />

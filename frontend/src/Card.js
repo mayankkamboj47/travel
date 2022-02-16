@@ -5,6 +5,7 @@ import { faHeart, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import React from 'react';
+import axios from 'axios';
 import useRemote from './hooks';
 
 export function ImageCard({ image, title, subtitle }) {
@@ -22,7 +23,7 @@ export function ImageCard({ image, title, subtitle }) {
 }
 
 export function DetailsCard({
-  image, title, caption, rating, reviews, price, amenities, link
+  image, title, caption, rating, reviews, price, amenities, link, heartAction,
 }) {
   const priceBoxStyle = {
     position: 'absolute',
@@ -47,7 +48,7 @@ export function DetailsCard({
         <Link to={link}><Heading size="md" maxW="20rem">{title}</Heading></Link>
         {amenities.map(
           // eslint-disable-next-line comma-dangle
-          (amenity) => <Text as="span" mr="1rem" wordBreak="keep-all" fontSize="sm" color="gray.500">{amenity}</Text>
+          (amenity) => <Text as="span" mr="1rem" wordBreak="keep-all" fontSize="sm" color="gray.500" key={amenity}>{amenity}</Text>
         )}
         <Text style={ratingBoxStyle}>
           <FontAwesomeIcon icon={faStar} />
@@ -63,20 +64,20 @@ export function DetailsCard({
           <strong>{`₹${price} `}</strong>
           /night
         </Text>
-        <IconButton icon={<FontAwesomeIcon icon={faHeart} />} style={heartStyle} />
+        <IconButton icon={<FontAwesomeIcon icon={faHeart} />} style={heartStyle} onClick={() => heartAction()} />
       </Box>
     </Flex>
   );
 }
 
 export function Cards() { // REMOVE THIS !
-  const [data, loading, error] = useRemote('http://localhost:8081/places');
+  const [data, loading, error] = useRemote('http://localhost:3001/hotel');
   if (loading) return <p>Cards are loading...</p>;
   if (error) return <p>Some error fetching cards from backend</p>;
   return (
     <>
       {data.map(({
-        title, subtitle, rating, reviews, images, amenities, price,
+        title, subtitle, rating, reviews, images, amenities, price, _id,
       }) => (
         <DetailsCard
           image={images[0]}
@@ -86,6 +87,8 @@ export function Cards() { // REMOVE THIS !
           reviews={reviews}
           price={price}
           amenities={amenities}
+          link={`/hotel/${_id}`}
+          heartAction={() => axios.get(`http://localhost:3001/user/wishlist/add?hotel=${_id}`, { withCredentials: true })}
         />
       ))}
     </>

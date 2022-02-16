@@ -7,12 +7,15 @@ import {
 import { faCheck, faEdit, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { DetailsCard } from './Card';
 import useRemote from './hooks';
 
 export default function Profile() {
   const navigate = useNavigate();
   const [data, loading, error] = useRemote('http://localhost:3001/user');
+  const [wishListData, ...rest] = useRemote('http://localhost:3001/user/wishlist');
   if (loading) return <Spinner />;
   if (data === null) {
     navigate('/login');
@@ -22,15 +25,31 @@ export default function Profile() {
     <Container maxW={1600}>
       <Heading display="inline-block" fontSize="2xl" pr="1rem">Welcome, </Heading>
       <EditableUsername defaultValue={data?.name || 'John Doe'} />
-      <Button onClick={
+      <Button
+        onClick={
         () => axios.get('http://localhost:3001/logout', { withCredentials: true }).then(
           () => navigate('/login'),
         )
       }
-      display="block" bgColor="red.500">
+        display="block"
+        bgColor="red.500"
+      >
         Logout
       </Button>
       <Heading>Your Wishlist</Heading>
+      {!wishListData.length ? <Spinner />
+        : wishListData.map((hotel) => (
+          <DetailsCard
+            title={hotel.title}
+            image={hotel.images[0]}
+            caption={hotel.subtitle}
+            rating={hotel.rating}
+            reviews={hotel.reviews}
+            price={hotel.price}
+            amenities={hotel.amenities}
+            link={`/hotel/${hotel._id}`}
+          />
+        ))}
     </Container>
   );
 }

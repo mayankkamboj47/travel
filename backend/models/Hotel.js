@@ -17,13 +17,14 @@ const hotelSchema = new mongoose.Schema({
     },
     reviews: Number,
     images: [String],
-    price: String,
+    price: Number,
     reviewData : [{
         name : String,
         text : String,
         verified : Boolean,
         rating : Number
-    }]
+    }],
+    location : String
 })
 
 module.exports = mongoose.model('Hotel', hotelSchema)

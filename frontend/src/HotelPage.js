@@ -18,7 +18,7 @@ export default function HotelPage() {
   if (loading) return <Spinner />;
   if (error) return <p>Page could not be loaded</p>;
   const {
-    title, rating, reviews, location, images, description, price,
+    title, rating, reviews, location, images, description, price, reviewData,
   } = data;
   return (
     <Box maxW="1600px" m="0 auto" padding="0 2rem">
@@ -27,11 +27,12 @@ export default function HotelPage() {
       <ImagesHero images={images} />
       <Booker rating={rating} price={price} numreviews={reviews} />
       <Description description={description} />
-      <Reviews numreviews={reviews} rating={rating} id={id} />
+      <Reviews numreviews={reviews} rating={rating} id={id} reviewData={reviewData} />
     </Box>
   );
 }
-/* {"rooms": {"guests": 16.0, "bedrooms": 5.0, "beds": 5.0, "bathrooms": 6.5},
+/*
+{"rooms": {"guests": 16.0, "bedrooms": 5.0, "beds": 5.0, "bathrooms": 6.5},
  "amenities": ["Wifi", "Kitchen", "Free parking"],
  "title": "CasaMo, Silver Oak",
  "rating": 4.67,
@@ -82,11 +83,13 @@ function Description({ description }) {
   return (<Text m="1rem 2rem 2rem 0rem">{description}</Text>);
 }
 
-function Reviews({ numreviews, rating, id }) {
-  const reviewData = [{ user: 'Ashok', text: 'Great place!', verified: true }, { user: 'Kritin', text: 'excellent hospitality services', verified: false }];
+function Reviews({
+  numreviews, rating, id, reviewData,
+}) {
+  const [reviews, setReviews] = useState(reviewData);
   return (
     <div>
-      <ReviewModal _id={id} addReview={() => true} />
+      <ReviewModal _id={id} addReview={(x) => setReviews(reviews.concat(x))} />
       <Flex>
         <Heading mr="1rem" size="md">
           {numreviews}
@@ -99,10 +102,10 @@ function Reviews({ numreviews, rating, id }) {
           {rating}
         </Heading>
       </Flex>
-      {reviewData.map(({ user, text, verified }) => (
+      {reviews.map(({ name, text, verified }) => (
         <Box mt="1rem" w="fit-content" border="1px solid grey" borderRadius="1rem" p="0.5rem 1rem 1rem 1rem">
           <Heading size="md">
-            {user}
+            {name}
             {' '}
             {verified ? <Tag variant="outline" ml="1rem">verified user</Tag> : ''}
           </Heading>
@@ -121,7 +124,8 @@ function Booker({ rating, price, numreviews }) {
       <Flex justifyContent="space-between" mb="1rem" alignItems="center">
         <div>
           <Text fontSize="1.5rem">
-          ₹{price}
+            ₹
+            {price}
             /night
           </Text>
         </div>
@@ -172,10 +176,6 @@ function ReviewModal({ _id, addReview }) {
           <ModalHeader>Leave a review</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Title</FormLabel>
-              <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-            </FormControl>
             <FormControl mt={4}>
               <FormLabel>Rating</FormLabel>
               <NumInput max={5} min={1} onChange={setRating} value={rating} />
@@ -204,7 +204,6 @@ function ReviewModal({ _id, addReview }) {
         params: {
           rating,
           text,
-          title,
         },
       });
       addReview(response.data);

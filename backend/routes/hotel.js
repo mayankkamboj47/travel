@@ -2,30 +2,19 @@ const express = require('express')
 const router = express.Router()
 const Hotel = require('../models/Hotel')
 
-/**
- * X=true // see if amenities etc. (the tags) have this
- * X=4-5  // see if there is a value that corresponds to this property
- * and this value is between 4 to 5. 
- * X=Lonavla, Maharastra // Just a generic query, see if a property matches this
- * 
- * example : kitchen=true&Free Parking=true&price=200-1000&location=Lonavla, Maharashtra
- * {
- *  kitchen : true, 
- *  Free Parking : true,
- *  price : [200, 1000],
- *  location : 'Lonavla, Maharashtra'
- * }
- * =====>
- * {
- *    amenities : {$all : ['kitchen', 'Free Parking']},
- *    price : {$min : 200, $max : 1000},
- *    location : 'Lonavla, Maharashtra'
- * }
- */
-router.get('/search', async (req, res)=>{
-    console.log(req.query);
+router.get('/search/:string', async (req, res)=>{
+    let searchQuery = {
+        title : {$regex : req.params.string==='all' ? /.*/: new RegExp(req.params.string, 'i')},
+        ...hotelSearchQuery(parseURIQuery(req.query))
+    }
+    console.log(searchQuery);
+    let hotels = await Hotel.find(searchQuery);
+    res.status(200).json(hotels);
 })
 
+router.get('/locationSearchTest', async (req, res)=>{
+    res.status(200).json(await Hotel.find({location : {$regex : new RegExp('Shimla, Himachal Pradesh, India','i')}}));
+})
 router.get('/:id/review', async (req, res)=>{
     if(!req.user) {
         console.log('Not logged in');
@@ -67,6 +56,7 @@ router.get('/', async (req, res) =>{
 function parseURIQuery(query){
     let parsedQuery = {};
     for(let key in query){
+        if(query[key]==='false') continue;
         if(query[key]==='true') parsedQuery[key] = true;
         else if(query[key].indexOf('-')>-1) parsedQuery[key] = query[key].split('-').map(x=>new Number(x))
         else parsedQuery[key] = query[key];
@@ -80,11 +70,12 @@ function hotelSearchQuery(obj){
     for(let key in obj){
         if(typeof obj[key]==='boolean' && obj[key]) searchQueryObj.amenities.$all.push(key);
         else if(typeof obj[key]==='object'){
-            [$min, $max] = obj[key];
-            searchQueryObj[key] = {$min, $max};
+            [$gt, $lt] = obj[key].map(Number);
+            searchQueryObj[key] = {$gt, $lt};
         }
         else searchQueryObj[key] = obj[key];
     }
+    if(searchQueryObj.amenities.$all.length===0) delete searchQueryObj.amenities;
     return searchQueryObj;
 }
 module.exports = router

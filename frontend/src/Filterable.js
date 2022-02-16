@@ -1,9 +1,10 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-use-before-define */
+import axios from 'axios';
 import { useState } from 'react';
 import useRemote from './hooks';
 import FilterBar from './Filterbar';
-
+import { DetailsCard } from './Card';
 /**
  * Usage :
  *
@@ -27,30 +28,32 @@ import FilterBar from './Filterbar';
 export default function Filterable({
   dataSource, map,
 }) {
-  const [featured, setFeatured] = useState(false);
+  const [selfCheckIn, setSelfCheckIn] = useState(false);
   const [kitchen, setKitchen] = useState(false);
-  const [currentMinPrice, setCurrentMinPrice] = useState(4);
-  const [currentMaxPrice, setCurrentMaxPrice] = useState(92);
+  const [currentMinPrice, setCurrentMinPrice] = useState(0);
+  const [currentMaxPrice, setCurrentMaxPrice] = useState(10000);
+  const [currentMinRating, setCurrentMinRating] = useState(1);
+  const [currentMaxRating, setCurrentMaxRating] = useState(5);
 
   const [data, loading, error] = useRemote(URIString(dataSource));
 
   const filterOptions = {
-    toggles: { Featured: [featured, setFeatured], Kitchen: [kitchen, setKitchen] },
+    toggles: { 'Self check-in': [selfCheckIn, setSelfCheckIn], Kitchen: [kitchen, setKitchen] },
     price: {
       min: 1,
-      max: 100,
+      max: 10000,
       currentMin: currentMinPrice,
-      currentMax: 92,
+      currentMax: currentMaxPrice,
       onMinChange: setCurrentMinPrice,
       onMaxChange: setCurrentMaxPrice,
     },
-    date: {
+    rating: {
       min: 1,
-      max: 100,
-      currentMin: 4,
-      currentMax: 92,
-      onMinChange: console.log,
-      onMaxChange: console.log,
+      max: 5,
+      currentMin: 1,
+      currentMax: 5,
+      onMinChange: setCurrentMinRating,
+      onMaxChange: setCurrentMaxRating,
     },
   };
 
@@ -64,8 +67,38 @@ export default function Filterable({
   );
 
   function URIString(dataSource) {
-    return `${dataSource}?${new URLSearchParams({ kitchen, featured, price: [currentMinPrice, currentMaxPrice].join('-') }).toString()}`;
+    return `${dataSource}?${new URLSearchParams(
+      {
+        Kitchen: kitchen,
+        'Self check-in': selfCheckIn,
+        price: [currentMinPrice, currentMaxPrice].join('-'),
+        rating: [currentMinRating, currentMaxRating].join('-'),
+      },
+    ).toString()}`;
   }
 }
 
 // urlSearchParams
+export function FilterableWithAllHotels() {
+  return (
+    <Filterable
+      dataSource="http://localhost:3001/hotel/search/all"
+      map={({
+        amenities, title, subtitle, rating, reviews, images, price, _id,
+      }) => (
+        <DetailsCard
+          image={images[0]}
+          title={title}
+          caption={subtitle}
+          rating={rating}
+          reviews={reviews}
+          price={price}
+          amenities={amenities}
+          key={_id}
+          link={`/hotel/${_id}`}
+          heartAction={() => axios.get(`http://localhost:3001/user/wishlist/add?hotel=${_id}`, { withCredentials: true }).then(() => alert('Added to wishlist'))}
+        />
+      )}
+    />
+  );
+}
