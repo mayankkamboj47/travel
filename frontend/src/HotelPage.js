@@ -1,36 +1,46 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-fragments */
 import {
-  Heading, Flex, Box, Text, Tag, Button, Input, Select,
+  Heading, Flex, Box, Text, Tag, Button, Input, Select, Spinner,
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody,
+  ModalFooter, FormControl, FormLabel, Textarea, useDisclosure,
+  NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
+import useRemote from './hooks';
 
-export default function HotelPage({
-  title, rating, reviews, location, images, description,
-}) {
+export default function HotelPage() {
   const { id } = useParams();
-  alert(id);
+  const [data, loading, error] = useRemote(`http://localhost:3001/hotel/${id}`);
+  if (loading) return <Spinner />;
+  if (error) return <p>Page could not be loaded</p>;
+  const {
+    title, rating, reviews, location, images, description, price,
+  } = data;
   return (
     <Box maxW="1600px" m="0 auto" padding="0 2rem">
       <Heading>{title}</Heading>
       <RatingReviewsAndLocation location={location} rating={rating} />
       <ImagesHero images={images} />
-      <Booker rating={rating} price="$90" numreviews={reviews} />
+      <Booker rating={rating} price={price} numreviews={reviews} />
       <Description description={description} />
-      <Reviews numreviews={reviews} rating={rating} />
+      <Reviews numreviews={reviews} rating={rating} id={id} />
     </Box>
   );
 }
 /* {"rooms": {"guests": 16.0, "bedrooms": 5.0, "beds": 5.0, "bathrooms": 6.5},
-"amenities": ["Wifi", "Kitchen", "Free parking"],
+ "amenities": ["Wifi", "Kitchen", "Free parking"],
  "title": "CasaMo, Silver Oak",
  "rating": 4.67,
  "reviews" :  6,
  "images": ["https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/55c6dc97-3d6e-43b8-af2c-5a3501efc8cc.jpeg?im_w=720", "https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/5e9616c4-c6cf-4433-89bc-d5f213324320.jpeg?im_w=720", "https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/653db8f7-8884-4369-b700-f4334c272166.jpeg?im_w=720", "https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/75903290-e051-4d5b-bce2-b6818fd7dedf.jpeg?im_w=720", "https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/9f7a0843-f3a2-4cdc-86da-2593c9644373.jpeg?im_w=720"],
  "price": "\u20b935,200",
  "description" : "This is the best hotel there is period"
- "location" : "Mahabaleshwar, Maharashtra, India"}
+ "location" : "Mahabaleshwar, Maharashtra, India"
+}
  */
 function RatingReviewsAndLocation({ rating, location }) {
   return (
@@ -72,11 +82,11 @@ function Description({ description }) {
   return (<Text m="1rem 2rem 2rem 0rem">{description}</Text>);
 }
 
-function Reviews({ numreviews, rating }) {
+function Reviews({ numreviews, rating, id }) {
   const reviewData = [{ user: 'Ashok', text: 'Great place!', verified: true }, { user: 'Kritin', text: 'excellent hospitality services', verified: false }];
   return (
     <div>
-      <Button mb="1rem"> Write a review </Button>
+      <ReviewModal _id={id} addReview={() => true} />
       <Flex>
         <Heading mr="1rem" size="md">
           {numreviews}
@@ -111,7 +121,7 @@ function Booker({ rating, price, numreviews }) {
       <Flex justifyContent="space-between" mb="1rem" alignItems="center">
         <div>
           <Text fontSize="1.5rem">
-            {price}
+          ₹{price}
             /night
           </Text>
         </div>
@@ -140,5 +150,79 @@ function Booker({ rating, price, numreviews }) {
       </div>
       <Button w="100%" mt="0.5rem" bgColor="#97c7ae">Reserve</Button>
     </Box>
+  );
+}
+
+function ReviewModal({ _id, addReview }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [rating, setRating] = useState(5);
+  const [text, setText] = useState('');
+  const [title, setTitle] = useState('');
+  return (
+    <React.Fragment>
+      <Button onClick={onOpen} mb={5}>Leave a review</Button>
+      <Modal
+        initialFocus
+        finalFocus
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Leave a review</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Title</FormLabel>
+              <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Rating</FormLabel>
+              <NumInput max={5} min={1} onChange={setRating} value={rating} />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Details</FormLabel>
+              <Textarea placeholder="" onChange={(e) => setText(e.target.value)} value={text} />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={() => postReview()}>
+              Post
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </React.Fragment>
+  );
+  async function postReview() { // this will be changed
+    // Also, awkward. Don't do this, look at the poor glue between postReview and
+    // hotelPage
+    try {
+      const response = await axios.get(`http://localhost:3001/hotel/${_id}/review`, {
+        withCredentials: true,
+        params: {
+          rating,
+          text,
+          title,
+        },
+      });
+      addReview(response.data);
+    } catch (e) {
+      alert('You\'re not logged in');
+    }
+    onClose();
+  }
+}
+
+function NumInput(props) {
+  return (
+    <NumberInput width="5rem" min={1} aria-label="Quantity" defaultValue={1} {...props}>
+      <NumberInputField />
+      <NumberInputStepper>
+        <NumberIncrementStepper />
+        <NumberDecrementStepper />
+      </NumberInputStepper>
+    </NumberInput>
   );
 }

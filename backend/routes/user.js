@@ -9,16 +9,12 @@ router.get('/', (req, res) => {
 })
 
 router.put('/wishlist', async (req, res) => {
-    if (!req.body.hotel) {
-        return res.status(400).send(null)
-    }
-    
+    if (!req.body.hotel) return res.status(400).send(null)
     const user = req.user || null
     
     if (!user) {
         return res.status(403).send(null)
     }
-
     try {
         const updateduser = await User.findOneAndUpdate({name: user.name}, {$push : {wishlist: req.body.hotel}})
         return res.status(200).send(null)

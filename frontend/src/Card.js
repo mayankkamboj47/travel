@@ -60,7 +60,7 @@ export function DetailsCard({
           Reviews)
         </Text>
         <Text style={priceBoxStyle}>
-          <strong>{`${price} `}</strong>
+          <strong>{`₹${price} `}</strong>
           /night
         </Text>
         <IconButton icon={<FontAwesomeIcon icon={faHeart} />} style={heartStyle} />

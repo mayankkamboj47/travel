@@ -12,7 +12,7 @@ function Home() {
   return (
     <>
       <Filterable
-        dataSource="http://localhost:8081/places"
+        dataSource="http://localhost:3001/hotel"
         map={({
           amenities, title, subtitle, rating, reviews, images, price, _id
         }) => (

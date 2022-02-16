@@ -18,6 +18,12 @@ const hotelSchema = new mongoose.Schema({
     reviews: Number,
     images: [String],
     price: String,
+    reviewData : [{
+        name : String,
+        text : String,
+        verified : Boolean,
+        rating : Number
+    }]
 })
 
 module.exports = mongoose.model('Hotel', hotelSchema)

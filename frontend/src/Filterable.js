@@ -23,13 +23,14 @@ import FilterBar from './Filterbar';
           />
         )}
       />
-
  */
 export default function Filterable({
   dataSource, map,
 }) {
   const [featured, setFeatured] = useState(false);
   const [kitchen, setKitchen] = useState(false);
+  const [currentMinPrice, setCurrentMinPrice] = useState(4);
+  const [currentMaxPrice, setCurrentMaxPrice] = useState(92);
 
   const [data, loading, error] = useRemote(URIString(dataSource));
 
@@ -38,10 +39,10 @@ export default function Filterable({
     price: {
       min: 1,
       max: 100,
-      currentMin: 4,
+      currentMin: currentMinPrice,
       currentMax: 92,
-      onMinChange: console.log,
-      onMaxChange: console.log,
+      onMinChange: setCurrentMinPrice,
+      onMaxChange: setCurrentMaxPrice,
     },
     date: {
       min: 1,
@@ -63,7 +64,7 @@ export default function Filterable({
   );
 
   function URIString(dataSource) {
-    return `${dataSource}?${new URLSearchParams({ kitchen, featured }).toString()}`;
+    return `${dataSource}?${new URLSearchParams({ kitchen, featured, price: [currentMinPrice, currentMaxPrice].join('-') }).toString()}`;
   }
 }
 

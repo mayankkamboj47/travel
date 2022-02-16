@@ -1,0 +1,15 @@
+Google Authentication and Facebook Authentication
+
+Location is undefined, we will need to rescrape once we have done the necessary stuff
+  So is description
+  scrapeSelenium.py is ready
+  scrapedData is ready. Just need to process it. 
+  processed
+
+Post review
+  1. The data will need to be modified again it seems, in very minor ways
+  1. Post requests have req.user undefined, like last time. Find a workaround, or
+  go and contribute a patch to passport. For now, using get requests
+
+After that, work on the filter URLs. 
+  
