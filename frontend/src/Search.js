@@ -1,9 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import Filterable from './Filterable';
 import { DetailsCard } from './Card';
 
 export default function Search() {
   const { query } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   return (
     <Filterable
       dataSource={`http://localhost:3001/hotel/search/${query}`}
@@ -23,6 +24,7 @@ export default function Search() {
           heartAction={() => axios.get(`http://localhost:3001/user/wishlist/add?hotel=${_id}`, { withCredentials: true }).then(() => alert('Added to wishlist'))}
         />
       )}
+      additionalFilters={searchParams.get('location') ? { location: searchParams.get('location') } : {}}
     />
   );
 }

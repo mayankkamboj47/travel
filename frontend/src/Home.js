@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-fragments */
 /* eslint-disable react/no-unstable-nested-components */
 import {
-  Container, Heading, Text, Flex, Spinner,
+  Container, Heading, Text, Flex,
 } from '@chakra-ui/react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Hero from './Hero';
-import { ImageCard, DetailsCard } from './Card';
+import { ImageCard } from './Card';
 
 function Home() {
   return (
@@ -28,7 +29,7 @@ function Cities() {
     state: 'Himachal Pradesh',
   }, {
     image: 'https://cdn.britannica.com/37/189837-050-F0AF383E/New-Delhi-India-War-Memorial-arch-Sir.jpg',
-    city: 'Delhi',
+    city: 'New Delhi',
     state: 'Delhi',
   },
   {
@@ -44,12 +45,14 @@ function Cities() {
         {
         data.map(
           ({ image, city, state }) => (
-            <ImageCard
-              image={image}
-              title={city}
-              subtitle={state}
-              key={city}
-            />
+            <Link to={`/search/all?location=${city}, ${state}, India`}>
+              <ImageCard
+                image={image}
+                title={city}
+                subtitle={state}
+                key={city}
+              />
+            </Link>
           ),
         )
       }

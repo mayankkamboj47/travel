@@ -5,29 +5,11 @@ import { useState } from 'react';
 import useRemote from './hooks';
 import FilterBar from './Filterbar';
 import { DetailsCard } from './Card';
-/**
- * Usage :
- *
- *    <Filterable
-        dataSource="http://localhost:8081/places"
-        map={({
-          amenities, title, subtitle, rating, reviews, images, price,
-        }) => (
-          <DetailsCard
-            image={images[0]}
-            title={title}
-            caption={subtitle}
-            rating={rating}
-            reviews={reviews}
-            price={price}
-            amenities={amenities}
-          />
-        )}
-      />
- */
+
 export default function Filterable({
-  dataSource, map,
+  dataSource, additionalFilters, map,
 }) {
+  additionalFilters = additionalFilters || {};
   const [selfCheckIn, setSelfCheckIn] = useState(false);
   const [kitchen, setKitchen] = useState(false);
   const [currentMinPrice, setCurrentMinPrice] = useState(0);
@@ -73,6 +55,7 @@ export default function Filterable({
         'Self check-in': selfCheckIn,
         price: [currentMinPrice, currentMaxPrice].join('-'),
         rating: [currentMinRating, currentMaxRating].join('-'),
+        ...additionalFilters,
       },
     ).toString()}`;
   }
