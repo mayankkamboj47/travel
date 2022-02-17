@@ -35,7 +35,7 @@ function ToggleButton({ onClick, value }) {
   const [isOn, setIsOn] = useState(false);
   const style = isOn ? { background: 'skyblue' } : {};
   return (
-    <button
+    <Button
       type="button"
       onClick={
     () => {
@@ -47,7 +47,7 @@ function ToggleButton({ onClick, value }) {
       style={style}
     >
       {value}
-    </button>
+    </Button>
   );
 }
 /*
