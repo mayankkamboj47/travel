@@ -13,6 +13,7 @@ Post review
   done
   1. Reviews don't update the rating and numreviews parameters yet. Change that. 
 search
+  1. Rating doesn't display in the review comment
 
 wishlist
   The URL issue exists here in the wishlist also, please fix
@@ -21,7 +22,7 @@ wishlist
     1. For wishlisted products, be red, and remove things from wishlist
     2. For non-wishlisted products, be gray and add things to wishlist
 After that, work on the filter URLs. 
-  
+
 
 Misc : 
 

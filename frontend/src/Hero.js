@@ -17,7 +17,7 @@ export default function Hero() {
       <Heading mb="1rem" color="white">
         Where will you go next ?
       </Heading>
-      <Link to="/anywhere">
+      <Link to="/search/all">
         <Button borderRadius="1.5rem" colorScheme="gray">
           <Text bgGradient="linear-gradient(0deg, #ff253a, purple)" backgroundClip="text">
             Take me anywhere

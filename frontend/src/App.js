@@ -6,7 +6,6 @@ import Profile from './Profile';
 import Search from './Search';
 import HotelPage from './HotelPage';
 import { LoginForm, SignUpForm } from './Forms';
-import { FilterableWithAllHotels } from './Filterable';
 
 function App() {
   const hotelData = {
@@ -28,7 +27,6 @@ function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/anywhere" element={<FilterableWithAllHotels />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/profile" element={<Profile />} />
@@ -44,7 +42,7 @@ function App() {
               images={hotelData.images}
               description={hotelData.description}
             />
-)}
+          )}
         />
       </Routes>
     </BrowserRouter>

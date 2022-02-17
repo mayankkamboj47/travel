@@ -60,28 +60,3 @@ export default function Filterable({
     ).toString()}`;
   }
 }
-
-// urlSearchParams
-export function FilterableWithAllHotels() {
-  return (
-    <Filterable
-      dataSource="http://localhost:3001/hotel/search/all"
-      map={({
-        amenities, title, subtitle, rating, reviews, images, price, _id,
-      }) => (
-        <DetailsCard
-          image={images[0]}
-          title={title}
-          caption={subtitle}
-          rating={rating}
-          reviews={reviews}
-          price={price}
-          amenities={amenities}
-          key={_id}
-          link={`/hotel/${_id}`}
-          heartAction={() => axios.get(`http://localhost:3001/user/wishlist/add?hotel=${_id}`, { withCredentials: true }).then(() => alert('Added to wishlist'))}
-        />
-      )}
-    />
-  );
-}

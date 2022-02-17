@@ -1,4 +1,5 @@
 import { useParams, useSearchParams } from 'react-router-dom';
+import { Container } from '@chakra-ui/react';
 import Filterable from './Filterable';
 import { DetailsCard } from './Card';
 import axios from 'axios';
@@ -7,6 +8,7 @@ export default function Search() {
   const { query } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   return (
+    <Container maxW={1600} margin="0 auto">
     <Filterable
       dataSource={`http://localhost:3001/hotel/search/${query}`}
       map={({
@@ -27,5 +29,6 @@ export default function Search() {
       )}
       additionalFilters={searchParams.get('location') ? { location: searchParams.get('location') } : {}}
     />
+    </Container>
   );
 }
