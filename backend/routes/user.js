@@ -24,6 +24,20 @@ router.get('/wishlist/add', async (req, res) => {
     }
 })
 
+router.get('/wishlist/remove', async (req, res) => {
+    if (!req.query.hotel) return res.status(400).send(null);
+    if(!req.user) return res.status(401).status(null)
+    try{
+        const user = await User.findOne({name : req.user.name})
+        user.wishlist = user.wishlist.filter(x=>x!=req.query.hotel)
+        await user.save()
+        res.status(200).send(null)
+    }
+    catch(err) {
+        return res.status(500).send(err)
+    }
+});
+
 router.get('/wishlist', async (req, res)=>{
     const wishlist = req.user.wishlist;
     try {

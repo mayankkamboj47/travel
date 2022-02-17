@@ -51,6 +51,7 @@ export default function Profile() {
               price={hotel.price}
               amenities={hotel.amenities}
               link={`/hotel/${hotel._id}`}
+              heartAction={() => axios.get(`http://localhost:3001/user/wishlist/remove?hotel=${hotel._id}`, { withCredentials: true }).then(() => alert('Removed from wishlist'))}
             />
           ))}
       </Box>
