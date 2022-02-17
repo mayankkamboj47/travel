@@ -20,12 +20,17 @@ export default function HotelPage() {
   const {
     title, rating, reviews, location, images, description, price, reviewData,
   } = data;
+  function reserveHotel(){
+    axios.get(`http://localhost:3001/hotel/${id}/book`, {withCredentials : true}).then(()=>{
+      alert('Thank you for booking');
+    });
+  }
   return (
     <Box maxW="1600px" m="0 auto" padding="0 2rem">
       <Heading>{title}</Heading>
       <RatingReviewsAndLocation location={location} rating={rating} />
       <ImagesHero images={images} />
-      <Booker rating={rating} price={price} numreviews={reviews} />
+      <Booker rating={rating} price={price} numreviews={reviews} onBook={reserveHotel}/>
       <Description description={description} />
       <Reviews numreviews={reviews} rating={rating} id={id} reviewData={reviewData} />
     </Box>
@@ -118,7 +123,7 @@ function Reviews({
   );
 }
 
-function Booker({ rating, price, numreviews }) {
+function Booker({ rating, price, numreviews, onBook }) {
   return (
     <Box float="right" padding="1rem" bgColor="gray.100" mt="2rem" minW="400px" borderRadius="1rem">
       <Flex justifyContent="space-between" mb="1rem" alignItems="center">
@@ -160,7 +165,7 @@ function Booker({ rating, price, numreviews }) {
           <option>6 Guests</option>
         </Select>
       </div>
-      <Button w="100%" mt="0.5rem" bgColor="#97c7ae">Reserve</Button>
+      <Button w="100%" mt="0.5rem" bgColor="#97c7ae" onClick={onBook}>Reserve</Button>
     </Box>
   );
 }
