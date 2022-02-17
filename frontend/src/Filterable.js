@@ -1,10 +1,9 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-shadow */
 /* eslint-disable no-use-before-define */
-import axios from 'axios';
 import { useState } from 'react';
 import useRemote from './hooks';
 import FilterBar from './Filterbar';
-import { DetailsCard } from './Card';
 
 export default function Filterable({
   dataSource, additionalFilters, map,

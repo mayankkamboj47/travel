@@ -1,3 +1,7 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable no-alert */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-fragments */
@@ -20,8 +24,8 @@ export default function HotelPage() {
   const {
     title, rating, reviews, location, images, description, price, reviewData,
   } = data;
-  function reserveHotel(){
-    axios.get(`http://localhost:3001/hotel/${id}/book`, {withCredentials : true}).then(()=>{
+  function reserveHotel() {
+    axios.get(`http://localhost:3001/hotel/${id}/book`, { withCredentials: true }).then(() => {
       alert('Thank you for booking');
     });
   }
@@ -30,7 +34,7 @@ export default function HotelPage() {
       <Heading>{title}</Heading>
       <RatingReviewsAndLocation location={location} rating={rating} />
       <ImagesHero images={images} />
-      <Booker rating={rating} price={price} numreviews={reviews} onBook={reserveHotel}/>
+      <Booker rating={rating} price={price} numreviews={reviews} onBook={reserveHotel} />
       <Description description={description} />
       <Reviews numreviews={reviews} rating={rating} id={id} reviewData={reviewData} />
     </Box>
@@ -123,7 +127,9 @@ function Reviews({
   );
 }
 
-function Booker({ rating, price, numreviews, onBook }) {
+function Booker({
+  rating, price, numreviews, onBook,
+}) {
   return (
     <Box float="right" padding="1rem" bgColor="gray.100" mt="2rem" minW="400px" borderRadius="1rem">
       <Flex justifyContent="space-between" mb="1rem" alignItems="center">
@@ -147,14 +153,14 @@ function Booker({ rating, price, numreviews, onBook }) {
       </Flex>
       <div>
         <Flex>
-        <label htmlFor="checkin" w="50%">
-          Check-in Date
-          <Input variant="filled" w="100%" placeholder="Check-in Date" type="date" name="checkin" />
-        </label>
-        <label htmlFor="checkout" w="50%">
-          Check-out Date
-          <Input variant="filled" w="100%" placeholder="Check-out Date" type="date" name="checkout" />
-        </label>
+          <label htmlFor="checkin" w="50%">
+            Check-in Date
+            <Input variant="filled" w="100%" placeholder="Check-in Date" type="date" name="checkin" />
+          </label>
+          <label htmlFor="checkout" w="50%">
+            Check-out Date
+            <Input variant="filled" w="100%" placeholder="Check-out Date" type="date" name="checkout" />
+          </label>
         </Flex>
         <Select variant="filled">
           <option>1 Guest</option>

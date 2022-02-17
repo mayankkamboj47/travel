@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-props-no-spreading */
 import {
   Container, Heading, useEditableControls,
@@ -15,8 +16,8 @@ import useRemote from './hooks';
 export default function Profile() {
   const navigate = useNavigate();
   const [data, loading, error] = useRemote('http://localhost:3001/user');
-  const [wishListData, ...rest] = useRemote('http://localhost:3001/user/wishlist');
-  const [visitedData, ] = useRemote('http://localhost:3001/user/visited');
+  const [wishListData] = useRemote('http://localhost:3001/user/wishlist');
+  const [visitedData] = useRemote('http://localhost:3001/user/visited');
   if (loading) return <Spinner />;
   if (data === null) {
     navigate('/login');
