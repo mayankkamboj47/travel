@@ -35,5 +35,15 @@ router.get('/wishlist', async (req, res)=>{
     }
 });
 
+router.get('/visited', async (req, res)=>{
+    const visited = req.user.visited;
+    try {
+        let hotels = await Hotel.find({_id : {$in : visited}});
+        return res.status(200).json(hotels);
+    }
+    catch{
+        res.status(500).json(null);
+    }
+})
 module.exports = router
 

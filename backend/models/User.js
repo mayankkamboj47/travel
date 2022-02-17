@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     googleId: String,
     facebookId: String,
     wishlist: [String],
+    visited : [String]
 })
 
 module.exports = mongoose.model('User', userSchema)

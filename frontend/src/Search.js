@@ -1,6 +1,7 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import Filterable from './Filterable';
 import { DetailsCard } from './Card';
+import axios from 'axios';
 
 export default function Search() {
   const { query } = useParams();

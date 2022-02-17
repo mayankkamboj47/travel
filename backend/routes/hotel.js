@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Hotel = require('../models/Hotel')
+const User = require('../models/User')
 
 router.get('/search/:string', async (req, res)=>{
     let searchQuery = {
@@ -37,6 +38,14 @@ router.get('/:id/review', async (req, res)=>{
     await hotel.save()
     return res.status(200).json(newReview);
 });
+
+router.get('/:id/book', async (req,res)=>{
+    if(!req.user) return res.status(401).json('Please login');
+    const user = await User.findOne({name : req.user.name});
+    user.visited.push(req.params.id);
+    await user.save();
+    return res.status(200).json(null);
+})
 
 router.get('/:id', async (req, res) => {
     try {

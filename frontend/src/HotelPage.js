@@ -141,8 +141,16 @@ function Booker({ rating, price, numreviews }) {
         </div>
       </Flex>
       <div>
-        <Input variant="filled" w="50%" placeholder="Check-in Date" />
-        <Input variant="filled" w="50%" placeholder="Check-out Date" />
+        <Flex>
+        <label htmlFor="checkin" w="50%">
+          Check-in Date
+          <Input variant="filled" w="100%" placeholder="Check-in Date" type="date" name="checkin" />
+        </label>
+        <label htmlFor="checkout" w="50%">
+          Check-out Date
+          <Input variant="filled" w="100%" placeholder="Check-out Date" type="date" name="checkout" />
+        </label>
+        </Flex>
         <Select variant="filled">
           <option>1 Guest</option>
           <option>2 Guests</option>
@@ -161,7 +169,6 @@ function ReviewModal({ _id, addReview }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [rating, setRating] = useState(5);
   const [text, setText] = useState('');
-  const [title, setTitle] = useState('');
   return (
     <React.Fragment>
       <Button onClick={onOpen} mb={5}>Leave a review</Button>
