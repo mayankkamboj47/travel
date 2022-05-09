@@ -4,39 +4,39 @@
 import { useState } from 'react';
 import useRemote from './hooks';
 import FilterBar from './Filterbar';
+import { objMap } from './utils';
 
 export default function Filterable({
   dataSource, additionalFilters, map,
 }) {
   additionalFilters = additionalFilters || {};
-  const [selfCheckIn, setSelfCheckIn] = useState(false);
-  const [kitchen, setKitchen] = useState(false);
-  const [priceFrom, setPriceFrom] = useState(0);
-  const [priceTo, setPriceTo] = useState(10000);
-  const [ratingFrom, setRatingFrom] = useState(1);
-  const [ratingTo, setRatingTo] = useState(5);
+  const minMax = {
+    'price' : [0, 10000], 
+    'range' : [1, 5]
+  };
+  const checkin = useState(false);
+  const kitchen = useState(false);
+  const [priceRange, setPriceRange] = useState(minMax.price);
+  const [ratingRange, setRatingRange] = useState(minMax.range);
 
   const [data, loading, error] = useRemote(URIString(dataSource));
 
-  const toggles = { 'Self Check In': [selfCheckIn, setSelfCheckIn], Kitchen: [kitchen, setKitchen] };
-  const filterOptions = {
-    toggles,
+  const toggles = {kitchen, checkin};
+  const sliders = {
     price : {
-      min: 1,
-      max: 10000,
-      from: priceFrom,
-      to: priceTo,
-      setFrom: setPriceFrom,
-      setTo: setPriceTo,
+      minMax : minMax.price,
+      range : priceRange,
+      setRange : setPriceRange  
     },
     rating: {
-      min: 1,
-      max: 5,
-      from: ratingFrom,
-      to: ratingTo,
-      setFrom: setRatingFrom,
-      setTo: setRatingTo,
-    },
+      minMax : minMax.range,
+      range : ratingRange, 
+      setRange : setRatingRange
+    }
+  }
+  const filterOptions = {
+    toggles,
+    sliders,
   };
 
   if (loading) return <p>Loading ...</p>;
@@ -49,13 +49,10 @@ export default function Filterable({
   );
 
   function URIString(dataSource) {
-    const toggleVals = {};
-    for(let key in toggles) toggleVals[key] = toggles[key][0];
     return `${dataSource}?${new URLSearchParams(
       {
-        ...toggleVals,
-        price: [priceFrom, priceTo].join('-'),
-        rating: [ratingFrom, ratingTo].join('-'),
+        ...objMap(toggles, (key, val)=>[key, val[0]]),
+        ...objMap(sliders, (key, val)=>[key, val.range.join('-')]),
         ...additionalFilters,  // remove the additionalFilters, instead add 'defaults' for the already existing state filters
       },
     ).toString()}`;

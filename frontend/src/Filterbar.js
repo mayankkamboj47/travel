@@ -6,25 +6,24 @@ import {
 import { useState } from 'react';
 
 export default function FilterBar({ filterOptions }) {
-  const { toggles, ...sliders } = filterOptions;
+  const { toggles, sliders } = filterOptions;
   const toggleButtons = Object.keys(toggles).map((key) => {
     const toggle = toggles[key][1];
     return <ToggleButton onClick={toggle} value={key} key={key} />;
   });
   const sliderButtons = Object.keys(sliders).map((key) => {
     const {
-      from, to, min, max, setFrom, setTo,
+      range, minMax, setRange,
     } = sliders[key];
+    const [min, max] = minMax;
     return (
       <DrawerSlider
         title={key}
         key={key}
-        from={from}
-        to={to}
+        range={range}
         min={min}
         max={max}
-        setFrom={setFrom}
-        setTo={setTo}
+        setRange={setRange}
       />
     );
   });
@@ -52,30 +51,21 @@ function ToggleButton({ onClick, value }) {
 }
 
 export function DrawerSlider({
-  title, min, max, from, to, setFrom, setTo,
+  title, min, max, range, setRange,
 }) {
-  const [start, setStart] = useState(from);
-  const [end, setEnd] = useState(to);
+  const [localRange, setLocalRange] = useState(range);
   return (
     <Menu>
       <MenuButton as={Button}>{title}</MenuButton>
       <MenuList>
-        {`${start} -  ${end}`}
+        {localRange.join(' - ')}
         <RangeSlider
           aria-label={['min', 'max']}
-          defaultValue={[start, end]}
+          defaultValue={localRange}
           min={min}
           max={max}
-          onChange={([a, b]) => {
-            setStart(a);
-            setEnd(b);
-          }}
-          onChangeEnd={
-            ([a, b]) => {
-              setFrom(a);
-              setTo(b);
-            }
-          }
+          onChange={setLocalRange}
+          onChangeEnd={setRange}
         >
           <RangeSliderTrack>
             <RangeSliderFilledTrack />
