@@ -12,28 +12,18 @@ export default function Filterable({
   additionalFilters = additionalFilters || {};
   const minMax = {
     'price' : [0, 10000], 
-    'range' : [1, 5]
+    'rating' : [1, 5]
   };
   const checkin = useState(false);
   const kitchen = useState(false);
-  const [priceRange, setPriceRange] = useState(minMax.price);
-  const [ratingRange, setRatingRange] = useState(minMax.range);
+  const price = useState(minMax.price);
+  const rating = useState(minMax.rating);
 
   const [data, loading, error] = useRemote(URIString(dataSource));
 
   const toggles = {kitchen, checkin};
-  const sliders = {
-    price : {
-      minMax : minMax.price,
-      range : priceRange,
-      setRange : setPriceRange  
-    },
-    rating: {
-      minMax : minMax.range,
-      range : ratingRange, 
-      setRange : setRatingRange
-    }
-  }
+  const sliderStates = {price, rating};
+  const sliders = objMap(minMax, (key, val)=>[key, {minMax : val, range : sliderStates[key][0], setRange : sliderStates[key][1]}])
   const filterOptions = {
     toggles,
     sliders,
@@ -70,6 +60,8 @@ export default function Filterable({
  * 
  * We don't want to generate so many state variables. Can we have a central filtered state
  * from where they all get their stuff ? 
+ * 
+ * Reasons not to : Because that sounds complicated to think about. 
  * 
  * We have a uppercase, lowercase and string sensitive issue too, how to deal with that. 
  * 

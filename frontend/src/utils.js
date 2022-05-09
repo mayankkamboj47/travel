@@ -10,3 +10,6 @@ export function objMap(obj, func) {
     Object.entries(obj).map((e) => func(...e)),
   );
 }
+export function capitalise(string){
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
