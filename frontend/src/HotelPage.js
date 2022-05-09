@@ -32,11 +32,16 @@ export default function HotelPage() {
   return (
     <Box maxW="1600px" m="0 auto" padding="0 2rem">
       <Heading>{title}</Heading>
-      <RatingReviewsAndLocation location={location} rating={rating} />
+      <RatingReviewsAndLocation location={location} rating={rating.toPrecision(2)} />
       <ImagesHero images={images} />
       <Booker rating={rating} price={price} numreviews={reviews} onBook={reserveHotel} />
       <Description description={description} />
-      <Reviews numreviews={reviews} rating={rating} id={id} reviewData={reviewData} />
+      <Reviews
+        numreviews={reviews}
+        rating={rating.toPrecision(2)}
+        id={id}
+        reviewData={reviewData}
+      />
     </Box>
   );
 }

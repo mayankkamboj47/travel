@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import useRemote from './hooks';
 import FilterBar from './Filterbar';
-import { objMap } from './utils';
+import { objMap, loadList } from './utils';
 
 export default function Filterable({
   dataSource, additionalFilters, map,
@@ -14,15 +14,20 @@ export default function Filterable({
     price: [0, 10000],
     rating: [1, 5],
   };
-  const checkin = useState(false);
+  const freeParking = useState(false);
   const kitchen = useState(false);
+  const wifi = useState(false);
   const price = useState(minMax.price);
   const rating = useState(minMax.rating);
-  const toggles = { kitchen, checkin };
+  const toggles = { Kitchen: kitchen, 'Free parking': freeParking, Wifi: wifi };
   const sliderStates = { price, rating };
+  const specials = {
+    price: 'Cost (INR ₹)',
+    rating: 'Rating',
+  };
   const sliders = objMap(
     minMax,
-    (key, val) => [key,
+    (key, val) => [specials[key] || key,
       { minMax: val, range: sliderStates[key][0], setRange: sliderStates[key][1] }],
   );
   const [data, loading, error] = useRemote(URIString(dataSource));
@@ -32,12 +37,10 @@ export default function Filterable({
     sliders,
   };
 
-  if (loading) return <p>Loading ...</p>;
-  if (error) return <p>Error</p>;
   return (
     <div>
       <FilterBar filterOptions={filterOptions} />
-      {data.map(map)}
+      {loadList(data, loading, error, (x) => x.map(map))}
     </div>
   );
 
@@ -45,7 +48,7 @@ export default function Filterable({
     return `${dataSource}?${new URLSearchParams(
       {
         ...objMap(toggles, (key, val) => [key, val[0]]),
-        ...objMap(sliders, (key, val) => [key, val.range.join('-')]),
+        ...objMap(sliderStates, (key, val) => [key, val[0].join('-')]),
         ...additionalFilters,
         // remove the additionalFilters, instead add 'defaults'
       },

@@ -1,3 +1,4 @@
+import { Spinner } from '@chakra-ui/react';
 /**
  *
  * @param {Object} obj
@@ -12,4 +13,14 @@ export function objMap(obj, func) {
 }
 export function capitalise(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function loadList(data, isLoading, hasError, render) {
+  if (isLoading) {
+    return <div><Spinner /></div>;
+  }
+  if (hasError) {
+    return <p>Something nasty happened on our server or on your end</p>;
+  }
+  return data.length ? render(data) : <p>Wow, so empty</p>;
 }

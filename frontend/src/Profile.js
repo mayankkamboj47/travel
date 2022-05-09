@@ -14,6 +14,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DetailsCard } from './Card';
 import useRemote from './hooks';
+import { loadList } from './utils';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -123,14 +124,4 @@ function LogoutButton({ navigate }) {
       Logout
     </Button>
   );
-}
-
-function loadList(data, isLoading, hasError, render) {
-  if (isLoading) {
-    return <Spinner />;
-  }
-  if (hasError) {
-    return <p>Something nasty happened on our server or on your end</p>;
-  }
-  return render(data);
 }

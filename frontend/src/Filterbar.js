@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/aria-proptypes */
 import {
   Button, Menu, MenuList, MenuButton, RangeSlider, RangeSliderTrack, RangeSliderFilledTrack,
-  RangeSliderThumb,
+  RangeSliderThumb, Flex,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
@@ -27,12 +27,12 @@ export default function FilterBar({ filterOptions }) {
       />
     );
   });
-  return sliderButtons.concat(toggleButtons);
+  return <Flex gap="1rem" my="0.5rem">{sliderButtons.concat(toggleButtons)}</Flex>;
 }
 
 function ToggleButton({ onClick, value }) {
   const [isOn, setIsOn] = useState(false);
-  const style = isOn ? { background: 'skyblue' } : {};
+  const colorScheme = isOn ? 'blue' : 'gray';
   return (
     <Button
       type="button"
@@ -43,7 +43,7 @@ function ToggleButton({ onClick, value }) {
       onClick(newIsOn);
     }
 }
-      style={style}
+      colorScheme={colorScheme}
     >
       {value}
     </Button>
@@ -57,7 +57,7 @@ export function DrawerSlider({
   return (
     <Menu>
       <MenuButton as={Button}>{title}</MenuButton>
-      <MenuList>
+      <MenuList px="1rem">
         {localRange.join(' - ')}
         <RangeSlider
           aria-label={['min', 'max']}

@@ -53,7 +53,7 @@ export function DetailsCard({
         <Text style={ratingBoxStyle}>
           <FontAwesomeIcon icon={faStar} />
           {' '}
-          {rating || 'No rating'}
+          {rating.toPrecision(2) || 'No rating'}
           {' '}
           (
           {reviews || 'No'}
