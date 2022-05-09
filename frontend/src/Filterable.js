@@ -2,6 +2,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-use-before-define */
 import { useState } from 'react';
+import { Button } from '@chakra-ui/react';
 import useRemote from './hooks';
 import FilterBar from './Filterbar';
 import { objMap, loadList } from './utils';
@@ -19,12 +20,13 @@ export default function Filterable({
   const wifi = useState(false);
   const price = useState(minMax.price);
   const rating = useState(minMax.rating);
-  const toggles = { Kitchen: kitchen, 'Free parking': freeParking, Wifi: wifi };
-  const sliderStates = { price, rating };
+  const [page, setPage] = useState(0);
   const specials = {
     price: 'Cost (INR ₹)',
     rating: 'Rating',
   };
+  const toggles = { Kitchen: kitchen, 'Free parking': freeParking, Wifi: wifi };
+  const sliderStates = { price, rating };
   const sliders = objMap(
     minMax,
     (key, val) => [specials[key] || key,
@@ -41,6 +43,8 @@ export default function Filterable({
     <div>
       <FilterBar filterOptions={filterOptions} />
       {loadList(data, loading, error, (x) => x.map(map))}
+      <Button onClick={() => setPage(Math.min(page - 1), 0)}>Back</Button>
+      <Button onClick={() => setPage(page + 1)} ml="2rem">Next</Button>
     </div>
   );
 
@@ -50,7 +54,7 @@ export default function Filterable({
         ...objMap(toggles, (key, val) => [key, val[0]]),
         ...objMap(sliderStates, (key, val) => [key, val[0].join('-')]),
         ...additionalFilters,
-        // remove the additionalFilters, instead add 'defaults'
+        page,
       },
     ).toString()}`;
   }

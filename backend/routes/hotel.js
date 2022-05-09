@@ -4,12 +4,21 @@ const Hotel = require('../models/Hotel')
 const User = require('../models/User')
 
 router.get('/search/:string', async (req, res)=>{
+    let pageNumber;
+    if(req.query.page){
+        pageNumber = parseInt(req.query.page);
+        delete req.query.page;
+        console.log("page is set!", pageNumber);
+    }
     let searchQuery = {
         title : {$regex : req.params.string==='all' ? /.*/: new RegExp(req.params.string, 'i')},
         ...hotelSearchQuery(parseURIQuery(req.query))
     }
     console.log(searchQuery);
-    let hotels = await Hotel.find(searchQuery);
+    let hotels;
+    if(pageNumber!==undefined)
+    hotels = await Hotel.find(searchQuery).skip(pageNumber*10).limit(10);
+    else hotels = await Hotel.find(searchQuery);
     res.status(200).json(hotels);
 })
 
