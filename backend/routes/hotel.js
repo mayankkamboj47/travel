@@ -35,6 +35,8 @@ router.get('/:id/review', async (req, res)=>{
         verified : false
     }
     hotel.reviewData.push(newReview)
+    hotel.rating = (hotel.rating * hotel.reviews + req.query.rating)/(hotel.reviews + 1);
+    hotel.reviews = hotel.reviews + 1;
     await hotel.save()
     return res.status(200).json(newReview);
 });

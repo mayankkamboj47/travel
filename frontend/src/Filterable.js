@@ -18,9 +18,6 @@ export default function Filterable({
   const kitchen = useState(false);
   const price = useState(minMax.price);
   const rating = useState(minMax.rating);
-
-  const [data, loading, error] = useRemote(URIString(dataSource));
-
   const toggles = { kitchen, checkin };
   const sliderStates = { price, rating };
   const sliders = objMap(
@@ -28,6 +25,8 @@ export default function Filterable({
     (key, val) => [key,
       { minMax: val, range: sliderStates[key][0], setRange: sliderStates[key][1] }],
   );
+  const [data, loading, error] = useRemote(URIString(dataSource));
+
   const filterOptions = {
     toggles,
     sliders,

@@ -55,7 +55,7 @@ export function LoginForm() {
   ).then(() => axios.get(
     'http://localhost:3001/user',
     { withCredentials: true },
-  ));
+  )).catch((e) => alert(e));
 
   return (
     <Form
@@ -68,7 +68,7 @@ export function LoginForm() {
 export function SignUpForm() {
   const dataPromise = (username, password) => axios.post('http://localhost:3001/register', { name: username, password }).then(
     () => axios.post('http://localhost:3001/login', { name: username, password }, { withCredentials: true }),
-  );
+  ).catch(alert);
   return (
     <Form
       title="Sign up"

@@ -1,29 +1,15 @@
-Google Authentication and Facebook Authentication
+Incase you need ; 
 
-Location is undefined, we will need to rescrape once we have done the necessary stuff
-  So is description
-  scrapeSelenium.py is ready
-  scrapedData is ready. Just need to process it. 
-  processed
-
-Post review
-  1. The data will need to be modified again it seems, in very minor ways
-  1. Post requests have req.user undefined, like last time. Find a workaround, or
-  go and contribute a patch to passport. For now, using get requests
-  done
-  1. Reviews don't update the rating and numreviews parameters yet. Change that. 
-search
-  1. Rating doesn't display in the review comment
-
-wishlist
-  The URL issue exists here in the wishlist also, please fix
-  Wishlist has repeats right now, fix that.
-  Wishlist icon should behave in the following way : 
-    1. For wishlisted products, be red, and remove things from wishlist
-    2. For non-wishlisted products, be gray and add things to wishlist
-After that, work on the filter URLs. 
-
-
-Misc : 
-
-/anywhere on the backend can be changed to a default /search
+  const hotelData = {
+    rooms: {
+      guests: 16.0, bedrooms: 5.0, beds: 5.0, bathrooms: 6.5,
+    },
+    amenities: ['Wifi', 'Kitchen', 'Free parking'],
+    title: 'CasaMo, Silver Oak',
+    rating: 4.67,
+    reviews: 6,
+    images: ['https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/55c6dc97-3d6e-43b8-af2c-5a3501efc8cc.jpeg?im_w=720', 'https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/5e9616c4-c6cf-4433-89bc-d5f213324320.jpeg?im_w=720', 'https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/653db8f7-8884-4369-b700-f4334c272166.jpeg?im_w=720', 'https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/75903290-e051-4d5b-bce2-b6818fd7dedf.jpeg?im_w=720', 'https://a0.muscache.com/im/pictures/miso/Hosting-31084171/original/9f7a0843-f3a2-4cdc-86da-2593c9644373.jpeg?im_w=720'],
+    price: '\u20b935,200',
+    description: 'This is the best hotel there is period',
+    location: 'Mahabaleshwar, Maharashtra, India',
+  };

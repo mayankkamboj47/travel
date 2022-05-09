@@ -45,7 +45,7 @@ function Cities() {
         {
         data.map(
           ({ image, city, state }) => (
-            <Link to={`/search/all?location=${city}, ${state}, India`}>
+            <Link to={`/search/all?location=${city}, ${state}, India`} key={image}>
               <ImageCard
                 image={image}
                 title={city}
