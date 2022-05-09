@@ -13,18 +13,18 @@ export default function FilterBar({ filterOptions }) {
   });
   const sliderButtons = Object.keys(sliders).map((key) => {
     const {
-      currentMin, currentMax, min, max, onMinChange, onMaxChange,
+      from, to, min, max, setFrom, setTo,
     } = sliders[key];
     return (
       <DrawerSlider
         title={key}
         key={key}
-        currentMin={currentMin}
-        currentMax={currentMax}
+        from={from}
+        to={to}
         min={min}
         max={max}
-        onMinChange={onMinChange}
-        onMaxChange={onMaxChange}
+        setFrom={setFrom}
+        setTo={setTo}
       />
     );
   });
@@ -50,37 +50,30 @@ function ToggleButton({ onClick, value }) {
     </Button>
   );
 }
-/*
-<DrawerSlider
-title="price"
-currentMin={10}
-currentMax={30}
-onMinChange={(a) => alert(`New min : ${a}`)}
-onMaxChange={(a) => alert(`New max${a}`)} />
-*/
+
 export function DrawerSlider({
-  title, min, max, currentMin, currentMax, onMinChange, onMaxChange,
+  title, min, max, from, to, setFrom, setTo,
 }) {
-  const [localMin, setLocalMin] = useState(currentMin);
-  const [localMax, setLocalMax] = useState(currentMax);
+  const [start, setStart] = useState(from);
+  const [end, setEnd] = useState(to);
   return (
     <Menu>
       <MenuButton as={Button}>{title}</MenuButton>
       <MenuList>
-        {`${localMin} -  ${localMax}`}
+        {`${start} -  ${end}`}
         <RangeSlider
           aria-label={['min', 'max']}
-          defaultValue={[localMin, localMax]}
+          defaultValue={[start, end]}
           min={min}
           max={max}
           onChange={([a, b]) => {
-            setLocalMin(a);
-            setLocalMax(b);
+            setStart(a);
+            setEnd(b);
           }}
           onChangeEnd={
             ([a, b]) => {
-              onMinChange(a);
-              onMaxChange(b);
+              setFrom(a);
+              setTo(b);
             }
           }
         >
