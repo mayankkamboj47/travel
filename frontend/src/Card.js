@@ -1,11 +1,14 @@
+/* eslint-disable react/prefer-stateless-function */
+/* eslint-disable react/destructuring-assignment */
 import {
   Heading, Flex, Text, Image, Box, IconButton,
 } from '@chakra-ui/react';
 import { faHeart, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { loadData, setData } from './utils';
 import useRemote from './hooks';
 
 export function ImageCard({ image, title, subtitle }) {
@@ -23,7 +26,7 @@ export function ImageCard({ image, title, subtitle }) {
 }
 
 export function DetailsCard({
-  image, title, caption, rating, reviews, price, amenities, link, heartAction,
+  image, title, caption, rating, reviews, price, amenities, link, heartAction, hearted,
 }) {
   const priceBoxStyle = {
     position: 'absolute',
@@ -66,7 +69,7 @@ export function DetailsCard({
         </Text>
         <IconButton
           icon={<FontAwesomeIcon icon={faHeart} />}
-          style={heartStyle}
+          style={hearted ? { ...heartStyle, color: 'red' } : heartStyle}
           onClick={() => heartAction()}
         />
       </Box>
@@ -74,27 +77,62 @@ export function DetailsCard({
   );
 }
 
-export function Cards() { // REMOVE THIS !
-  const [data, loading, error] = useRemote('http://localhost:3001/hotel');
-  if (loading) return <p>Cards are loading...</p>;
-  if (error) return <p>Some error fetching cards from backend</p>;
-  return (
-    <>
-      {data.map(({
-        title, subtitle, rating, reviews, images, amenities, price, _id,
-      }) => (
-        <DetailsCard
-          image={images[0]}
-          title={title}
-          caption={subtitle}
-          rating={rating}
-          reviews={reviews}
-          price={price}
-          amenities={amenities}
-          link={`/hotel/${_id}`}
-          heartAction={() => axios.get(`http://localhost:3001/user/wishlist/add?hotel=${_id}`, { withCredentials: true })}
-        />
-      ))}
-    </>
-  );
+export function cards(data) {
+  class MakeCards extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        wishlisted: [],
+      };
+    }
+
+    componentDidMount() {
+      loadData('http://localhost:3001/user/wishlist/id').then((data) => this.setState({ wishlisted: data }));
+    }
+
+    onHeart(_id) {
+      if (this.state.wishlisted.indexOf(_id) > -1) {
+        // axios.get(removeFromWishlistUrl)
+        // create a setData method. For that we'll have to fix the backend errors
+        axios.get(`http://localhost:3001/user/wishlist/remove?hotel=${_id}`, { withCredentials: true }).then(
+          () => {
+            const newWishlist = this.state.wishlisted.filter((x) => x !== _id);
+            this.setState({ wishlisted: newWishlist });
+            setData('http://localhost:3001/user/wishlist/id', newWishlist);
+          }
+        );
+      } else {
+        const newWishlist = [...this.state.wishlisted, _id];
+        axios.get(`http://localhost:3001/user/wishlist/add?hotel=${_id}`, { withCredentials: true }).then(() => {
+          this.setState({ wishlisted: newWishlist });
+          setData('http://localhost:3001/user/wishlist/id', newWishlist);
+        });
+      }
+    }
+
+    render() {
+      return (
+        <>
+          {this.props.data.map(({
+            title, subtitle, rating, reviews, images, amenities, price, _id,
+          }) => (
+            <DetailsCard
+              key={_id}
+              image={images[0]}
+              title={title}
+              caption={subtitle}
+              rating={rating}
+              reviews={reviews}
+              price={price}
+              hearted={this.state.wishlisted.indexOf(`${_id}`) > -1}
+              amenities={amenities}
+              link={`/hotel/${_id}`}
+              heartAction={() => this.onHeart(`${_id}`)}
+            />
+          ))}
+        </>
+      );
+    }
+  }
+  return <MakeCards data={data} />;
 }

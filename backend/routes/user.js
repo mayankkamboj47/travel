@@ -38,6 +38,11 @@ router.get('/wishlist/remove', async (req, res) => {
     }
 });
 
+router.get('/wishlist/id', async (req, res)=>{
+    if(req.user) return res.status(200).send(req.user.wishlist);
+    else return res.status(500).json(null);
+})
+
 router.get('/wishlist', async (req, res)=>{
     const wishlist = req.user.wishlist;
     try {

@@ -42,8 +42,8 @@ export default function Filterable({
   return (
     <div>
       <FilterBar filterOptions={filterOptions} />
-      {loadList(data, loading, error, (x) => x.map(map))}
-      <Button onClick={() => setPage(Math.min(page - 1), 0)}>Back</Button>
+      {loadList(data, loading, error, map)}
+      <Button disabled={page === 0} onClick={() => setPage(page-1)}>Back</Button>
       <Button onClick={() => setPage(page + 1)} ml="2rem">Next</Button>
     </div>
   );

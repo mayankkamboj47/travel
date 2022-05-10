@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DetailsCard } from './Card';
+import { cards, DetailsCard } from './Card';
 import useRemote from './hooks';
 import { loadList } from './utils';
 
@@ -30,19 +30,7 @@ export default function Profile() {
     wishListData,
     wishListIsLoading,
     wishListError,
-    (data) => data.map((hotel) => (
-      <DetailsCard
-        title={hotel.title}
-        image={hotel.images[0]}
-        caption={hotel.subtitle}
-        rating={hotel.rating}
-        reviews={hotel.reviews}
-        price={hotel.price}
-        amenities={hotel.amenities}
-        link={`/hotel/${hotel._id}`}
-        heartAction={() => axios.get(`http://localhost:3001/user/wishlist/remove?hotel=${hotel._id}`, { withCredentials: true }).then(() => alert('Removed from wishlist'))}
-      />
-    )),
+    cards,
   );
   return (
     <Container maxW={1600}>
@@ -115,7 +103,9 @@ function LogoutButton({ navigate }) {
     <Button
       onClick={
         () => axios.get('http://localhost:3001/logout', { withCredentials: true }).then(
-          () => navigate('/login'),
+          () => {
+            localStorage.clear();
+            navigate('/login')},
         )
       }
       display="block"

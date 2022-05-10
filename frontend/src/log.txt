@@ -4,4 +4,13 @@ Wishlisted places should have a red heart
 heart should have 'toggle' behaviour
   Idea : use local storage to remember x. If it isn't there, make a remote call, but otherwise, 
   just return the local storage data. 
+  return new Promise(resolve, reject){
+    if in local storage : resolve(localStorage), 
+    else :
+       try : makeALongCall and resolve
+       catch : reject
+  }
 
+rescrape data from given locations on homepage
+redesign hotelpage
+redesign card
