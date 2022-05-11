@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { loadData, setData } from './utils';
-import useRemote from './hooks';
 
 export function ImageCard({ image, title, subtitle }) {
   const styles = {

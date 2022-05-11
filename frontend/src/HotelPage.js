@@ -136,8 +136,8 @@ function Booker({
   rating, price, numreviews, onBook,
 }) {
   return (
-    <Box float="right" padding="1rem" bgColor="gray.100" mt="2rem" minW="400px" borderRadius="1rem">
-      <Flex justifyContent="space-between" mb="1rem" alignItems="center">
+    <Box float="right" padding="1rem" bgColor="gray.100" mt="2rem" minW="400px" borderRadius="1rem" position="sticky" top="4rem">
+      <Flex justifyContent="space-between" m="0 1rem 1rem 1rem" alignItems="center">
         <div>
           <Text fontSize="1.5rem">
             ₹
@@ -148,7 +148,7 @@ function Booker({
         <div>
           ★
           {' '}
-          {rating}
+          {rating.toPrecision(3)}
         </div>
         <div>
           {numreviews}
@@ -159,12 +159,12 @@ function Booker({
       <div>
         <Flex>
           <label htmlFor="checkin" w="50%">
-            Check-in Date
+            <span style={{ padding: '0 1rem' }}>Check-in Date</span>
             <Input variant="filled" w="100%" placeholder="Check-in Date" type="date" name="checkin" />
           </label>
           <label htmlFor="checkout" w="50%">
-            Check-out Date
-            <Input variant="filled" w="100%" placeholder="Check-out Date" type="date" name="checkout" />
+          <span style={{ padding: '0 1rem' }}>Check-out Date</span>
+          <Input variant="filled" w="100%" placeholder="Check-out Date" type="date" name="checkout" />
           </label>
         </Flex>
         <Select variant="filled">

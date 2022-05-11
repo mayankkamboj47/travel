@@ -43,18 +43,7 @@ export default function Profile() {
       </Box>
       <Box w="44%" float="right">
         <Heading>Places you visited</Heading>
-        {loadList(visitedData, visitedLoading, visitedError, (data) => data.map((hotel) => (
-          <DetailsCard
-            title={hotel.title}
-            image={hotel.images[0]}
-            caption={hotel.subtitle}
-            rating={hotel.rating}
-            reviews={hotel.reviews}
-            price={hotel.price}
-            amenities={hotel.amenities}
-            link={`/hotel/${hotel._id}`}
-          />
-        )))}
+        {loadList(visitedData, visitedLoading, visitedError, cards)}
       </Box>
     </Container>
   );
