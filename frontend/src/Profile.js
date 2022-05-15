@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { cards, DetailsCard } from './Card';
+import { cards } from './Card';
 import useRemote from './hooks';
 import { loadList } from './utils';
 

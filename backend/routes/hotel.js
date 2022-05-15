@@ -4,6 +4,11 @@ const Hotel = require('../models/Hotel')
 const User = require('../models/User')
 
 router.get('/search/:string', async (req, res)=>{
+    /**
+     * Fails when data has rating : null,
+     * This is possible for newer hotels, so
+     * Escape this for the cases where the user wants EVERY hotel
+     */
     let pageNumber;
     if(req.query.page){
         pageNumber = parseInt(req.query.page);
@@ -19,6 +24,7 @@ router.get('/search/:string', async (req, res)=>{
     if(pageNumber!==undefined)
     hotels = await Hotel.find(searchQuery).skip(pageNumber*10).limit(10);
     else hotels = await Hotel.find(searchQuery);
+    console.log(hotels);
     res.status(200).json(hotels);
 })
 

@@ -15,9 +15,9 @@ export default function Filterable({
     price: [0, 10000],
     rating: [1, 5],
   };
-  const freeParking = useState(false);
   const kitchen = useState(false);
   const wifi = useState(false);
+  const freeParking = useState(false);
   const price = useState(minMax.price);
   const rating = useState(minMax.rating);
   const [page, setPage] = useState(0);
