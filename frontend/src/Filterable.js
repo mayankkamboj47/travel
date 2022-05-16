@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-shadow */
 /* eslint-disable no-use-before-define */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@chakra-ui/react';
 import useRemote from './hooks';
 import FilterBar from './Filterbar';
@@ -11,25 +11,25 @@ export default function Filterable({
   dataSource, additionalFilters, map,
 }) {
   additionalFilters = additionalFilters || {};
-  const minMax = {
+  const ranges = {
     price: [0, 10000],
     rating: [1, 5],
   };
+  const [page, setPage] = useState(0);
   const kitchen = useState(false);
   const wifi = useState(false);
   const freeParking = useState(false);
-  const price = useState(minMax.price);
-  const rating = useState(minMax.rating);
-  const [page, setPage] = useState(0);
-  const specials = {
+  const price = useState(ranges.price);
+  const rating = useState(ranges.rating);
+  const sliderLabels = {
     price: 'Cost (INR ₹)',
     rating: 'Rating',
   };
   const toggles = { Kitchen: kitchen, 'Free parking': freeParking, Wifi: wifi };
   const sliderStates = { price, rating };
   const sliders = objMap(
-    minMax,
-    (key, val) => [specials[key] || key,
+    ranges,
+    (key, val) => [sliderLabels[key] || key,
       { minMax: val, range: sliderStates[key][0], setRange: sliderStates[key][1] }],
   );
   const [data, loading, error] = useRemote(URIString(dataSource));
@@ -38,12 +38,14 @@ export default function Filterable({
     toggles,
     sliders,
   };
-
+  useEffect(() => {
+    setPage(0);
+  }, [...Object.values(toggles).map((s) => s[0]), ...Object.values(sliderStates).map((s) => s[0])]);
   return (
     <div>
       <FilterBar filterOptions={filterOptions} />
       {loadList(data, loading, error, map)}
-      <Button disabled={page === 0} onClick={() => setPage(page-1)}>Back</Button>
+      <Button disabled={page === 0} onClick={() => setPage(page - 1)}>Back</Button>
       <Button onClick={() => setPage(page + 1)} ml="2rem">Next</Button>
     </div>
   );

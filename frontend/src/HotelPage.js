@@ -94,7 +94,7 @@ function ImagesHero({ images }) {
 }
 
 function Description({ description }) {
-  return (<Text m="1rem 2rem 2rem 0rem">{description}</Text>);
+  return (<Text m="1rem 2rem 2rem 0rem" mr={{ base: 0, md: 450 }} clear={{ base: 'right', md: 'none' }}>{description}</Text>);
 }
 
 function Reviews({
@@ -136,7 +136,7 @@ function Booker({
   rating, price, numreviews, onBook,
 }) {
   return (
-    <Box float="right" padding="1rem" bgColor="gray.100" mt="2rem" minW="400px" borderRadius="1rem" position="sticky" top="4rem">
+    <Box float="right" padding="1rem" bgColor="gray.100" mt="2rem" minW="400px" maxW="450px" borderRadius="1rem" position={{ base: 'static', md: 'sticky' }} top="4rem">
       <Flex justifyContent="space-between" m="0 1rem 1rem 1rem" alignItems="center">
         <div>
           <Text fontSize="1.5rem">
@@ -163,8 +163,8 @@ function Booker({
             <Input variant="filled" w="100%" placeholder="Check-in Date" type="date" name="checkin" />
           </label>
           <label htmlFor="checkout" w="50%">
-          <span style={{ padding: '0 1rem' }}>Check-out Date</span>
-          <Input variant="filled" w="100%" placeholder="Check-out Date" type="date" name="checkout" />
+            <span style={{ padding: '0 1rem' }}>Check-out Date</span>
+            <Input variant="filled" w="100%" placeholder="Check-out Date" type="date" name="checkout" />
           </label>
         </Flex>
         <Select variant="filled">

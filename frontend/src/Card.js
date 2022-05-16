@@ -6,7 +6,7 @@ import {
 import { faHeart, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { loadData, setData } from './utils';
 
@@ -49,8 +49,7 @@ export function DetailsCard({
         <Text fontSize="sm" color="gray.500">{caption}</Text>
         <Link to={link}><Heading size="md" maxW="20rem">{title}</Heading></Link>
         {amenities.map(
-          // eslint-disable-next-line comma-dangle
-          (amenity) => <Text as="span" mr="1rem" wordBreak="keep-all" fontSize="sm" color="gray.500" key={amenity}>{amenity}</Text>
+          (amenity) => <Text as="span" mr="1rem" wordBreak="keep-all" fontSize="sm" color="gray.500" key={amenity}>{amenity}</Text>,
         )}
         <Text style={ratingBoxStyle}>
           <FontAwesomeIcon icon={faStar} />
@@ -91,14 +90,12 @@ export function cards(data) {
 
     onHeart(_id) {
       if (this.state.wishlisted.indexOf(_id) > -1) {
-        // axios.get(removeFromWishlistUrl)
-        // create a setData method. For that we'll have to fix the backend errors
         axios.get(`http://localhost:3001/user/wishlist/remove?hotel=${_id}`, { withCredentials: true }).then(
           () => {
             const newWishlist = this.state.wishlisted.filter((x) => x !== _id);
             this.setState({ wishlisted: newWishlist });
             setData('http://localhost:3001/user/wishlist/id', newWishlist);
-          }
+          },
         );
       } else {
         const newWishlist = [...this.state.wishlisted, _id];
@@ -111,7 +108,7 @@ export function cards(data) {
 
     render() {
       return (
-        <>
+        <React.Fragment>
           {this.props.data.map(({
             title, subtitle, rating, reviews, images, amenities, price, _id,
           }) => (
@@ -129,7 +126,7 @@ export function cards(data) {
               heartAction={() => this.onHeart(`${_id}`)}
             />
           ))}
-        </>
+        </React.Fragment>
       );
     }
   }

@@ -27,7 +27,7 @@ export default function FilterBar({ filterOptions }) {
       />
     );
   });
-  return <Flex gap="1rem" my="0.5rem">{sliderButtons.concat(toggleButtons)}</Flex>;
+  return <Flex gap="1rem" py="0.5rem" position="sticky" top="0" zIndex={10} style={{backdropFilter: 'blur(10px)'}}>{sliderButtons.concat(toggleButtons)}</Flex>;
 }
 
 function ToggleButton({ onClick, value }) {

@@ -94,7 +94,8 @@ function LogoutButton({ navigate }) {
         () => axios.get('http://localhost:3001/logout', { withCredentials: true }).then(
           () => {
             localStorage.clear();
-            navigate('/login')},
+            navigate('/login');
+          },
         )
       }
       display="block"
