@@ -7,37 +7,60 @@ import useRemote from './hooks';
 import FilterBar from './Filterbar';
 import { objMap, loadList } from './utils';
 
+/**
+filterable -> Filterbar
+Parameters : 
+  datasource <string> : A url to fetch data from. This data will be filtered based on the filters set within the Filterable component
+  additionalFilters <object>: These filters do not show up in the filterbar. For options that you don't want the users to control. 
+  map <function>: To transform the data that fetch(dataSource) returns incase the server response is not formatted desirably
+*/
 export default function Filterable({
   dataSource, additionalFilters, map,
 }) {
   additionalFilters = additionalFilters || {};
+  // define some constants to avoid using magic numbers
   const ranges = {
     price: [0, 10000],
     rating: [1, 5],
   };
-  const [page, setPage] = useState(0);
+  // start defining things we can filter with
+  const [page, setPage] = useState(0); // page Number
+  // yes or no filters. Does this place have a ...
   const kitchen = useState(false);
   const wifi = useState(false);
   const freeParking = useState(false);
+  // and some range-based filters. Eg. show products in this price range with this rating. 
   const price = useState(ranges.price);
   const rating = useState(ranges.rating);
+  // we'd want the UI to sometimes show better hints than just say 'price' or 'rating'. We'll also capitalise here to make it look better. Do it for the ranges...
   const sliderLabels = {
     price: 'Cost (INR ₹)',
     rating: 'Rating',
   };
+  // And for toggles
   const toggles = { Kitchen: kitchen, 'Free parking': freeParking, Wifi: wifi };
   const sliderStates = { price, rating };
+  /*
+  Sliders : {<Label> : {
+                minMax : [<number>, <number>],          // minimum and maximum possible the range can get
+                range  : [<number>, <number>],          // what the range is right now
+                setRange : <function>                   // a function to change the range
+              }
+              ...}
+  */
   const sliders = objMap(
     ranges,
     (key, val) => [sliderLabels[key] || key,
       { minMax: val, range: sliderStates[key][0], setRange: sliderStates[key][1] }],
   );
+  // generate url by combining datasource and filters, and request data using a hook
   const [data, loading, error] = useRemote(URIString(dataSource));
 
   const filterOptions = {
     toggles,
     sliders,
   };
+  // if any of the filter options change, automatically set the page number to 0 as well
   useEffect(() => {
     setPage(0);
   }, [...Object.values(toggles).map((s) => s[0]), ...Object.values(sliderStates).map((s) => s[0])]);
@@ -49,7 +72,10 @@ export default function Filterable({
       <Button onClick={() => setPage(page + 1)} ml="2rem">Next</Button>
     </div>
   );
-
+  /**
+  Pass the filter parameters to dataSource as url query strings. Note : Datasource must support requests of the format we are sending
+  Better than post methods because sharing query-based url preserves filters. 
+  */
   function URIString(dataSource) {
     return `${dataSource}?${new URLSearchParams(
       {
@@ -61,29 +87,3 @@ export default function Filterable({
     ).toString()}`;
   }
 }
-/**
- *
- * Filters =
- * toggles : {
- *   'kitchen' : [kitchen, setKitchen],
- *   '....   ' : [...]
- * },
- *
- *
- * We don't want to generate so many state variables. Can we have a central filtered state
- * from where they all get their stuff ?
- *
- * Reasons not to : Because that sounds complicated to think about.
- *
- * We have a uppercase, lowercase and string sensitive issue too, how to deal with that.
- *
- *
- * We need a whole object called toggles as state.
- * The UI indicates that, and the way we are making our calls indicates that.
- * We can also then manufacture toggles solely based on the data we have.
- *
- * Issue with manufacturing toggles based on the data :
- *   1. Which data are we talking about ? The one we get after the filters,
- * will be limited in what toggles and filters it gives us.
- *   The server will have to tell us therefore, but regardless, this is a good feature.
- */
