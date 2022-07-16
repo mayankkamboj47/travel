@@ -9,10 +9,13 @@ import { objMap, loadList } from './utils';
 
 /**
 filterable -> Filterbar
-Parameters : 
-  datasource <string> : A url to fetch data from. This data will be filtered based on the filters set within the Filterable component
-  additionalFilters <object>: These filters do not show up in the filterbar. For options that you don't want the users to control. 
-  map <function>: To transform the data that fetch(dataSource) returns incase the server response is not formatted desirably
+Parameters :
+  datasource <string> : A url to fetch data from. This data will be filtered
+                    based on the filters set within the Filterable component
+  additionalFilters <object>: These filters do not show up in the filterbar.
+                        For options that you don't want the users to control.
+  map <function>: To transform the data that fetch(dataSource) returns incase
+                  the server response is not formatted desirably
 */
 export default function Filterable({
   dataSource, additionalFilters, map,
@@ -29,10 +32,11 @@ export default function Filterable({
   const kitchen = useState(false);
   const wifi = useState(false);
   const freeParking = useState(false);
-  // and some range-based filters. Eg. show products in this price range with this rating. 
+  // and some range-based filters. Eg. show products in this price range with this rating.
   const price = useState(ranges.price);
   const rating = useState(ranges.rating);
-  // we'd want the UI to sometimes show better hints than just say 'price' or 'rating'. We'll also capitalise here to make it look better. Do it for the ranges...
+  // we'd want the UI to sometimes show better hints than just say 'price' or 'rating'.
+  // We'll also capitalise here to make it look better. Do it for the ranges...
   const sliderLabels = {
     price: 'Cost (INR ₹)',
     rating: 'Rating',
@@ -42,9 +46,9 @@ export default function Filterable({
   const sliderStates = { price, rating };
   /*
   Sliders : {<Label> : {
-                minMax : [<number>, <number>],          // minimum and maximum possible the range can get
-                range  : [<number>, <number>],          // what the range is right now
-                setRange : <function>                   // a function to change the range
+                minMax : [<number>, <number>],   // minimum and maximum possible the range can get
+                range  : [<number>, <number>],   // what the range is right now
+                setRange : <function>            // a function to change the range
               }
               ...}
   */
@@ -73,8 +77,9 @@ export default function Filterable({
     </div>
   );
   /**
-  Pass the filter parameters to dataSource as url query strings. Note : Datasource must support requests of the format we are sending
-  Better than post methods because sharing query-based url preserves filters. 
+  Pass the filter parameters to dataSource as url query strings.
+  Note : Datasource must support requests of the format we are sending
+  Better than post methods because sharing query-based url preserves filters.
   */
   function URIString(dataSource) {
     return `${dataSource}?${new URLSearchParams(

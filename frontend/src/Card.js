@@ -1,3 +1,5 @@
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable no-shadow */
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable react/destructuring-assignment */
 import {
