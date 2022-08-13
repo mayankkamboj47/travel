@@ -15,17 +15,18 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import React, { useState } from 'react';
 import useRemote from './hooks';
+import { server } from './globals';
 
 export default function HotelPage() {
   const { id } = useParams();
-  const [data, loading, error] = useRemote(`http://localhost:3001/hotel/${id}`);
+  const [data, loading, error] = useRemote(`${server}/hotel/${id}`);
   if (loading) return <Spinner />;
   if (error) return <p>Page could not be loaded</p>;
   const {
     title, rating, reviews, location, images, description, price, reviewData,
   } = data;
   function reserveHotel() {
-    axios.get(`http://localhost:3001/hotel/${id}/book`, { withCredentials: true }).then(() => {
+    axios.get(`${server}/hotel/${id}/book`, { withCredentials: true }).then(() => {
       alert('Thank you for booking');
     });
   }
@@ -222,7 +223,7 @@ function ReviewModal({ _id, addReview }) {
     // Also, awkward. Don't do this, look at the poor glue between postReview and
     // hotelPage
     try {
-      const response = await axios.get(`http://localhost:3001/hotel/${_id}/review`, {
+      const response = await axios.get(`${server}/hotel/${_id}/review`, {
         withCredentials: true,
         params: {
           rating,

@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';
 import { loadData, setData } from './utils';
+import { server } from './globals';
 
 export function ImageCard({ image, title, subtitle }) {
   const styles = {
@@ -87,23 +88,23 @@ export function cards(data) {
     }
 
     componentDidMount() {
-      loadData('http://localhost:3001/user/wishlist/id').then((data) => this.setState({ wishlisted: data }));
+      loadData(`${server}/user/wishlist/id`).then((data) => this.setState({ wishlisted: data }));
     }
 
     onHeart(_id) {
       if (this.state.wishlisted.indexOf(_id) > -1) {
-        axios.get(`http://localhost:3001/user/wishlist/remove?hotel=${_id}`, { withCredentials: true }).then(
+        axios.get(`${server}/user/wishlist/remove?hotel=${_id}`, { withCredentials: true }).then(
           () => {
             const newWishlist = this.state.wishlisted.filter((x) => x !== _id);
             this.setState({ wishlisted: newWishlist });
-            setData('http://localhost:3001/user/wishlist/id', newWishlist);
+            setData(`${server}/user/wishlist/id`, newWishlist);
           },
         );
       } else {
         const newWishlist = [...this.state.wishlisted, _id];
-        axios.get(`http://localhost:3001/user/wishlist/add?hotel=${_id}`, { withCredentials: true }).then(() => {
+        axios.get(`${server}/user/wishlist/add?hotel=${_id}`, { withCredentials: true }).then(() => {
           this.setState({ wishlisted: newWishlist });
-          setData('http://localhost:3001/user/wishlist/id', newWishlist);
+          setData(`${server}/user/wishlist/id`, newWishlist);
         });
       }
     }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-use-before-define */
 import
@@ -8,6 +9,7 @@ import
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { server } from './globals';
 
 function Form({ title, other, dataPromise }) {
   const [username, setUsername] = useState('');
@@ -49,13 +51,13 @@ function Form({ title, other, dataPromise }) {
 
 export function LoginForm() {
   const dataPromise = (username, password) => axios.post(
-    'http://localhost:3001/login',
+    `${server}/login`,
     { name: username, password },
     { withCredentials: true },
   ).then(() => axios.get(
-    'http://localhost:3001/user',
+    `${server}/user`,
     { withCredentials: true },
-  )).catch((e) => alert(e));
+  )).catch(alert);
 
   return (
     <Form
@@ -66,8 +68,8 @@ export function LoginForm() {
   );
 }
 export function SignUpForm() {
-  const dataPromise = (username, password) => axios.post('http://localhost:3001/register', { name: username, password }).then(
-    () => axios.post('http://localhost:3001/login', { name: username, password }, { withCredentials: true }),
+  const dataPromise = (username, password) => axios.post(`${server}/register`, { name: username, password }).then(
+    () => axios.post(`${server}/login`, { name: username, password }, { withCredentials: true }),
   ).catch(alert);
   return (
     <Form

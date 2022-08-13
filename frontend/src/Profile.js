@@ -15,12 +15,13 @@ import { useNavigate } from 'react-router-dom';
 import { cards } from './Card';
 import useRemote from './hooks';
 import { loadList } from './utils';
+import { server } from './globals';
 
 export default function Profile() {
   const navigate = useNavigate();
-  const [data, loading, error] = useRemote('http://localhost:3001/user');
-  const [wishListData, wishListIsLoading, wishListError] = useRemote('http://localhost:3001/user/wishlist');
-  const [visitedData, visitedLoading, visitedError] = useRemote('http://localhost:3001/user/visited');
+  const [data, loading, error] = useRemote(`${server}/user`);
+  const [wishListData, wishListIsLoading, wishListError] = useRemote(`${server}/user/wishlist`);
+  const [visitedData, visitedLoading, visitedError] = useRemote(`${server}/user/visited`);
   if (loading) return <Spinner />;
   if (data === null) {
     navigate('/login');
@@ -91,7 +92,7 @@ function LogoutButton({ navigate }) {
   return (
     <Button
       onClick={
-        () => axios.get('http://localhost:3001/logout', { withCredentials: true }).then(
+        () => axios.get(`${server}/logout`, { withCredentials: true }).then(
           () => {
             localStorage.clear();
             navigate('/login');

@@ -1,3 +1,5 @@
 Make a portal and use that to display a login and signup modal
   - Use frosted glass effect in the modal
 On the backend, try to make it so that PUT, POST work when used with passport
+
+Make the images on the homepage optimised
