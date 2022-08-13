@@ -9,7 +9,7 @@ export default function Hero() {
     <Box
       textAlign="center"
       py="10rem"
-      background="url(http://deiratravels.com/wp-content/uploads/2016/07/Indian-Tourism-1.jpg)"
+      background="url(https://www.flydubai.com/en/media/India_Hero_tcm8-33226.jpg)"
       backgroundSize="cover"
       backgroundPosition="bottom"
       maxH="100vh"

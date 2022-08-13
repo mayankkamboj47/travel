@@ -32,7 +32,7 @@ export default function HotelPage() {
   }
   return (
     <Box maxW="1600px" m="0 auto" padding="0 2rem">
-      <Heading>{title}</Heading>
+      <Heading mt='1rem'>{title}</Heading>
       <RatingReviewsAndLocation location={location} rating={rating.toPrecision(2)} />
       <ImagesHero images={images} />
       <Booker rating={rating} price={price} numreviews={reviews} onBook={reserveHotel} />
@@ -60,7 +60,7 @@ export default function HotelPage() {
  */
 function RatingReviewsAndLocation({ rating, location }) {
   return (
-    <Flex style={{ gap: '1rem' }}>
+    <Flex style={{ gap: '1rem' }} mb='1rem'>
       <div>
         {' '}
         {location}
@@ -73,29 +73,37 @@ function RatingReviewsAndLocation({ rating, location }) {
 
 function ImagesHero({ images }) {
   const containerStyle = {
-    display: 'grid',
+    display : 'grid',
     gridTemplateColumns: '2fr 1fr 1fr',
-    gridTemplateRows: '1fr 1fr',
+    gridAutoRows : '300px',
     gap: '0.25rem',
+    maxHeight : '700px', 
+    minHeight : '400px'
   };
   const mainImageStyle = {
     gridRowStart: 1,
     gridRowEnd: 3,
     gridColumnStart: 1,
     gridColumnEnd: 2,
-    width: '100%',
     height: '100%',
+    width: '100%',
+    objectFit : 'cover'
   };
+  const otherImagesStyle = {
+    height : '100%',
+    width  : '100%',
+    objectFit : 'cover'
+  }
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} >
       <img style={mainImageStyle} src={images[0]} />
-      {images.slice(1).map((img) => <img src={img} key={img} alt={img} />)}
+      {images.slice(1).map((img) => <img src={img} key={img} alt={img} style={otherImagesStyle} />)}
     </div>
   );
 }
 
 function Description({ description }) {
-  return (<Text m="1rem 2rem 2rem 0rem" mr={{ base: 0, md: 450 }} clear={{ base: 'right', md: 'none' }}>{description}</Text>);
+  return (<Text m="2rem 2rem 2rem 0rem" mr={{ base: 0, md: 450 }} clear={{ base: 'right', md: 'none' }}>{description}</Text>);
 }
 
 function Reviews({
@@ -137,7 +145,7 @@ function Booker({
   rating, price, numreviews, onBook,
 }) {
   return (
-    <Box float="right" padding="1rem" bgColor="gray.100" mt="2rem" minW="400px" maxW="450px" borderRadius="1rem" position={{ base: 'static', md: 'sticky' }} top="4rem">
+    <Box float="right" p="1rem" bgColor="gray.100" minW="400px" mt="2rem" ml={{ base : "0", md : "2rem"}} maxW="450px" borderRadius="1rem" position={{ base: 'static', md: 'sticky' }} top="4rem">
       <Flex justifyContent="space-between" m="0 1rem 1rem 1rem" alignItems="center">
         <div>
           <Text fontSize="1.5rem">

@@ -3,3 +3,5 @@ POST /bookhotel {hotel : _id}
 - Decide the formatting for the search string, and make a quick parser 
 - See if there is a quick way to encode and decode objects to url strings, 
 which will make us able to skip the former step.
+
+Login is broken. Figure why. 

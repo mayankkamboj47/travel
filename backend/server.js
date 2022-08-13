@@ -12,7 +12,7 @@ const cors = require('cors')
 const initializePassport = require('./passport-config/passport-config')
 
 app.use(cors({
-    origin : 'https://3000-mayankkamboj47-travel-e9zs9adot5n.ws-us60.gitpod.io/',
+    origin : 'http://localhost:3000',
     credentials : true
 }))
 initializePassport (

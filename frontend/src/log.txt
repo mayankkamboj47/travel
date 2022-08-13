@@ -3,3 +3,4 @@ Make a portal and use that to display a login and signup modal
 On the backend, try to make it so that PUT, POST work when used with passport
 
 Make the images on the homepage optimised
+Make the hotelpage responsive. Check other pages for responsiveness
