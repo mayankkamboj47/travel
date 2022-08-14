@@ -9,6 +9,7 @@ export default function useRemote(url, defaultValue = []) {
     () => {
       async function fetchData() {
         try {
+          setLoading(true);
           const res = await axios.get(url, { withCredentials: true });
           setData(res.data);
         } catch {
