@@ -28,7 +28,7 @@ export default function HotelPage() {
   function reserveHotel() {
     axios.get(`${server}/hotel/${id}/book`, { withCredentials: true }).then(() => {
       alert('Thank you for booking');
-    });
+    }).catch(()=>alert('Something went wrong. Are you logged in?'));
   }
   return (
     <Box maxW="1600px" m="0 auto" padding="0 2rem">
@@ -95,10 +95,13 @@ function ImagesHero({ images }) {
     objectFit : 'cover'
   }
   return (
-    <div style={containerStyle} >
+    <Box sx={{"@media (max-width:45rem)" : {
+      display : "block",
+      maxHeight : "initial"
+    }, ...containerStyle}}>
       <img style={mainImageStyle} src={images[0]} />
       {images.slice(1).map((img) => <img src={img} key={img} alt={img} style={otherImagesStyle} />)}
-    </div>
+    </Box>
   );
 }
 
@@ -145,7 +148,10 @@ function Booker({
   rating, price, numreviews, onBook,
 }) {
   return (
-    <Box float="right" p="1rem" bgColor="gray.100" minW="400px" mt="2rem" ml={{ base : "0", md : "2rem"}} maxW="450px" borderRadius="1rem" position={{ base: 'static', md: 'sticky' }} top="4rem">
+    <Box sx={{"@media (max-width:45rem)" : {
+      float : "none"
+    }}} 
+    float="right" p="1rem" bgColor="gray.100" minW="400px" mt="2rem" ml={{ base : "0", md : "2rem"}} maxW="450px" borderRadius="1rem" position={{ base: 'static', md: 'sticky' }} top="4rem">
       <Flex justifyContent="space-between" m="0 1rem 1rem 1rem" alignItems="center">
         <div>
           <Text fontSize="1.5rem">

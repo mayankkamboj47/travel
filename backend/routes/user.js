@@ -44,6 +44,7 @@ router.get('/wishlist/id', async (req, res)=>{
 })
 
 router.get('/wishlist', async (req, res)=>{
+    if(!req.user) return res.status(401).json(null);
     const wishlist = req.user.wishlist;
     try {
         let hotels = await Hotel.find({_id : {$in : wishlist}})
@@ -55,9 +56,9 @@ router.get('/wishlist', async (req, res)=>{
 });
 
 router.get('/visited', async (req, res)=>{
-    const visited = req.user.visited;
+    if(!req.user) return res.status(401).json(null);
     try {
-        let hotels = await Hotel.find({_id : {$in : visited}});
+        let hotels = await Hotel.find({_id : {$in : req.user.visited}});
         return res.status(200).json(hotels);
     }
     catch{

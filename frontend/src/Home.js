@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-fragments */
 /* eslint-disable react/no-unstable-nested-components */
 import {
-  Container, Heading, Text, Flex,
+  Container, Heading, Text, Flex, UnorderedList, ListItem,
 } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -16,6 +16,7 @@ function Home() {
         <Cities />
         <About />
       </Container>
+      <Footer />
     </React.Fragment>
   );
 }
@@ -41,7 +42,7 @@ function Cities() {
   return (
     <>
       <Heading my="1rem">Places</Heading>
-      <Flex style={{ gap: '1rem' }}>
+      <Flex style={{ gap: '1rem', overflow : 'auto' }}>
         {
         data.map(
           ({ image, city, state }) => (
@@ -67,8 +68,20 @@ function About() {
       <Heading my="1rem">About</Heading>
       <Text>
         This website was created for Advanced Programming course at Ashoka University.
-        Contact us at mayank.kamboj_ug23@ashoka.edu.in
+        Contact us at mayank.kamboj_ug23@ashoka.edu.in. Also feel free to visit other links in the footer.
       </Text>
     </>
   );
+}
+
+function Footer(){
+  return (
+    <div style={{padding : '3rem', background : 'black', marginTop : '3rem', color: 'white'}}>
+      <UnorderedList maxW={1600} m="0 auto" style={{listStyle : 'none'}}>
+          <ListItem><a href="https://www.github.com/mayankkamboj47">Github</a></ListItem>
+          <ListItem><a href="https://mayankkamboj47.github.io/mayankkamboj47">Website</a></ListItem>
+          <ListItem>♡</ListItem>
+      </UnorderedList>
+    </div>
+  )
 }

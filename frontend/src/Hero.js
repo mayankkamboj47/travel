@@ -9,7 +9,7 @@ export default function Hero() {
     <Box
       textAlign="center"
       py="10rem"
-      background="url(https://www.flydubai.com/en/media/India_Hero_tcm8-33226.jpg)"
+      background="linear-gradient(45deg, #af676778, #bb6629cf), url(https://www.flydubai.com/en/media/India_Hero_tcm8-33226.jpg)"
       backgroundSize="cover"
       backgroundPosition="bottom"
       maxH="100vh"
