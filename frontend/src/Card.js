@@ -8,6 +8,7 @@ import {
 import { faHeart, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
+import { HotelModal } from './HotelPage';
 import React from 'react';
 import axios from 'axios';
 import { loadData, setData } from './utils';
@@ -28,7 +29,7 @@ export function ImageCard({ image, title, subtitle }) {
 }
 
 export function DetailsCard({
-  image, title, caption, rating, reviews, price, amenities, link, heartAction, hearted,
+  image, title, caption, rating, reviews, price, amenities, link, heartAction, hearted, onTitleClick
 }) {
   const priceBoxStyle = {
     position: 'absolute',
@@ -50,7 +51,9 @@ export function DetailsCard({
       <Image src={image} flex={4} w="15rem" h="12rem" objectFit="cover" />
       <Box flex={5} position="relative">
         <Text fontSize="sm" color="gray.500">{caption}</Text>
-        <Link to={link}><Heading size="md" maxW="20rem">{title}</Heading></Link>
+        <Link to={link} onClick={(e)=>{
+          onTitleClick(e, link)
+        }}><Heading size="md" maxW="20rem">{title}</Heading></Link>
         {amenities.map(
           (amenity) => <Text as="span" mr="1rem" wordBreak="keep-all" fontSize="sm" color="gray.500" key={amenity}>{amenity}</Text>,
         )}
@@ -84,7 +87,9 @@ export function cards(data) {
       super(props);
       this.state = {
         wishlisted: [],
+        hotelModalUrl : null // url of the current hotel being displayed in a modal
       };
+      this.onTitleClick = this.onTitleClick.bind(this);
     }
 
     componentDidMount() {
@@ -109,9 +114,15 @@ export function cards(data) {
       }
     }
 
+    onTitleClick(e, link){
+      e.preventDefault();
+      this.setState({hotelModalId : link.match(/hotel\/(.+)/)[1]});
+    }
+
     render() {
       return (
         <React.Fragment>
+          {this.state.hotelModalId ? <HotelModal id={this.state.hotelModalId} closeModal={()=>this.setState({hotelModalId : null})} initialURL={document.URL}/> : false}
           {this.props.data.map(({
             title, subtitle, rating, reviews, images, amenities, price, _id,
           }) => (
@@ -127,6 +138,7 @@ export function cards(data) {
               amenities={amenities}
               link={`/hotel/${_id}`}
               heartAction={() => this.onHeart(`${_id}`)}
+              onTitleClick = {this.onTitleClick}
             />
           ))}
         </React.Fragment>

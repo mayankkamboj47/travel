@@ -19,6 +19,11 @@ import { server } from './globals';
 
 export default function HotelPage() {
   const { id } = useParams();
+  return <Hotel id={id} />
+}
+
+
+export function Hotel({id, modal=false}) {
   const [data, loading, error] = useRemote(`${server}/hotel/${id}`);
   if (loading) return <Spinner />;
   if (error) return <p>Page could not be loaded</p>;
@@ -30,18 +35,20 @@ export default function HotelPage() {
       alert('Thank you for booking');
     }).catch(()=>alert('Something went wrong. Are you logged in?'));
   }
+  const color = modal ? 'white' : 'black';
   return (
     <Box maxW="1600px" m="0 auto" padding="0 2rem">
-      <Heading mt='1rem'>{title}</Heading>
-      <RatingReviewsAndLocation location={location} rating={rating.toPrecision(2)} />
+      <Heading mt='1rem' color={color}>{title}</Heading>
+      <RatingReviewsAndLocation location={location} rating={rating.toPrecision(2)} color={color} />
       <ImagesHero images={images} />
       <Booker rating={rating} price={price} numreviews={reviews} onBook={reserveHotel} />
-      <Description description={description} />
+      <Description description={description} color={color} />
       <Reviews
         numreviews={reviews}
         rating={rating.toPrecision(2)}
         id={id}
         reviewData={reviewData}
+        color={color}
       />
     </Box>
   );
@@ -58,15 +65,15 @@ export default function HotelPage() {
  "location" : "Mahabaleshwar, Maharashtra, India"
 }
  */
-function RatingReviewsAndLocation({ rating, location }) {
+function RatingReviewsAndLocation({ rating, location, color }) {
   return (
     <Flex style={{ gap: '1rem' }} mb='1rem'>
-      <div>
+      <div style={{color}}>
         {' '}
         {location}
       </div>
       ★
-      <div>{rating}</div>
+      <div style={{color}}>{rating}</div>
     </Flex>
   );
 }
@@ -105,18 +112,18 @@ function ImagesHero({ images }) {
   );
 }
 
-function Description({ description }) {
-  return (<Text m="2rem 2rem 2rem 0rem" mr={{ base: 0, md: 450 }} clear={{ base: 'right', md: 'none' }}>{description}</Text>);
+function Description({ description, color }) {
+  return (<Text m="2rem 2rem 2rem 0rem" mr={{ base: 0, md: 450 }} clear={{ base: 'right', md: 'none' }} color={color}>{description}</Text>);
 }
 
 function Reviews({
-  numreviews, rating, id, reviewData,
+  numreviews, rating, id, reviewData, color
 }) {
   const [reviews, setReviews] = useState(reviewData);
   return (
     <div>
       <ReviewModal _id={id} addReview={(x) => setReviews(reviews.concat(x))} />
-      <Flex>
+      <Flex color={color}>
         <Heading mr="1rem" size="md">
           {numreviews}
           {' '}
@@ -129,7 +136,7 @@ function Reviews({
         </Heading>
       </Flex>
       {reviews.map(({ name, text, verified }) => (
-        <Box mt="1rem" w="fit-content" border="1px solid grey" borderRadius="1rem" p="0.5rem 1rem 1rem 1rem">
+        <Box mt="1rem" w="fit-content" border="1px solid grey" borderRadius="1rem" p="0.5rem 1rem 1rem 1rem" color={color}>
           <Heading size="md">
             {name}
             {' '}
@@ -261,5 +268,31 @@ function NumInput(props) {
         <NumberDecrementStepper />
       </NumberInputStepper>
     </NumberInput>
+  );
+}
+
+
+export function HotelModal({id, closeModal, initialURL}){
+  const hotelModalStyle = {
+    position:'fixed', 
+    width:'100vw', 
+    background:'#00000077', 
+    top:0, 
+    bottom:0,
+    left:0, 
+    zIndex : 10, 
+    backdropFilter : 'blur(40px)',
+    overflow : 'auto'
+  }
+  history.pushState({"search" : "hotelpage"}, "Hotel "+id, "/hotel/"+id);
+  return (
+  <div onFocus={true} style={hotelModalStyle}>
+    <a href="#" onClick={(e)=>{
+      e.preventDefault();
+      history.pushState(null, initialURL, initialURL);
+      closeModal();
+      }} style={{color : 'white', position : 'fixed', top : 20, right:20}}>Close</a>
+    <Hotel id={id} overrideStyles={{width:"400px"}} modal={true} />
+  </div>
   );
 }
