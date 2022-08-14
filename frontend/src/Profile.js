@@ -24,7 +24,7 @@ export default function Profile() {
   const [visitedData, visitedLoading, visitedError] = useRemote(`${server}/user/visited`);
   if (loading) return <Spinner />;
   if (data === null) {
-    navigate('/login');
+    navigate('/login');       // we're not logged in here, so redirect. 
   }
   if (error) return <p>Cannot load profile</p>;
   const wishlist = loadList(
@@ -33,16 +33,20 @@ export default function Profile() {
     wishListError,
     cards,
   );
+  const noColumnsWhenMobile = {"@media(max-width:1200px)" : {
+    width : "100%",
+    float : "none"
+  }};
   return (
     <Container maxW={1600}>
       <Heading display="inline-block" fontSize="2xl" pr="1rem">Welcome, </Heading>
       <EditableUsername defaultValue={data?.name || 'John Doe'} />
       <LogoutButton navigate={navigate} />
-      <Box w="50%" float="left">
+      <Box w="50%" float="left" sx={noColumnsWhenMobile} >
         <Heading>Your Wishlist</Heading>
         {wishlist}
       </Box>
-      <Box w="44%" float="right">
+      <Box w="44%" float="right" sx={noColumnsWhenMobile}>
         <Heading>Places you visited</Heading>
         {loadList(visitedData, visitedLoading, visitedError, cards)}
       </Box>

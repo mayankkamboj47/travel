@@ -2,5 +2,42 @@ Make a portal and use that to display a login and signup modal
   - Use frosted glass effect in the modal
 On the backend, try to make it so that PUT, POST work when used with passport
 
+Make the hotelpage and other pages responsive (done)
 Make the images on the homepage optimised
-Make the hotelpage responsive. Check other pages for responsiveness
+
+Testing : 
+
+1. The homepage should 
+   a. Have a hero, an about and a footer
+   b. The hero should, have a button and some text. The button should be
+   clickable and send you to a different page with some url. Ideally, it
+   should have a href value in the containing anchor
+   c. There should be a link to github
+   d. There should be a link to my website
+   e. Later (test on linux) : there should be no errors in eslint
+
+
+2. The hotelpage should
+   Have a title, some images, and text. 
+   A book hotel option : 
+   	. It should allow you to select stuff and book a hotel
+	  On booking a hotel, we should see a "booked" dialog box, which
+	  we must be able to cancel. On clicking the book button, it should
+	  change to a spinner and then to either "book" again with an error
+	  or to "booked"
+	     - How do I test two different scenarios ? 
+   On clicking a place, only hotels from that place should show up. 
+   A probabilistic test : The first and the second pages should have only
+   hotels from that place
+   
+   Hotel search list : 
+   On clicking kitchen, all the hotels contain "Kitchen" in their list
+   On picking a range for the price, we get hotels within that price range
+   On selecting 'Kitchen', clicking a hotel, and then clicking the 'back'
+   button, we should still have the kitchen filter set.
+   Another way : We could add a details option to the card itself, which shows
+   the entire hotel information in a popup with a blurry pretty background. 
+   This modal should first be responsive and only then pretty. It should have
+   a cross button to click on. Also a good chance to learn portals.
+
+
