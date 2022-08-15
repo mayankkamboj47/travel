@@ -67,8 +67,8 @@ function About() {
     <>
       <Heading my="1rem">About</Heading>
       <Text>
-        This website was created for Advanced Programming course at Ashoka University.
-        Contact us at mayank.kamboj_ug23@ashoka.edu.in. Also feel free to visit other links in the footer.
+        This project began as a programming assignment at Ashoka University. Check out the links in the footer to contact me, or just send an email at 
+        mayankkamboj47@gmail.com
       </Text>
     </>
   );
@@ -79,7 +79,7 @@ function Footer(){
     <div style={{padding : '3rem', background : 'black', marginTop : '3rem', color: 'white'}}>
       <UnorderedList maxW={1600} m="0 auto" style={{listStyle : 'none'}}>
           <ListItem><a href="https://www.github.com/mayankkamboj47">Github</a></ListItem>
-          <ListItem><a href="https://mayankkamboj47.github.io/mayankkamboj47">Website</a></ListItem>
+          <ListItem><a href="https://mayankkamboj47.github.io">Website</a></ListItem>
           <ListItem>♡</ListItem>
       </UnorderedList>
     </div>

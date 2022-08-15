@@ -14,6 +14,7 @@ import {
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import React, { useState } from 'react';
+import { Datepicker } from './Datepicker';
 import useRemote from './hooks';
 import { server } from './globals';
 
@@ -30,7 +31,8 @@ export function Hotel({id, modal=false}) {
   const {
     title, rating, reviews, location, images, description, price, reviewData,
   } = data;
-  function reserveHotel() {
+  function reserveHotel(from, to) {
+    if(!from || !to) return alert('You must pick a date');
     axios.get(`${server}/hotel/${id}/book`, { withCredentials: true }).then(() => {
       alert('Thank you for booking');
     }).catch(()=>alert('Something went wrong. Are you logged in?'));
@@ -154,6 +156,15 @@ function Reviews({
 function Booker({
   rating, price, numreviews, onBook,
 }) {
+  const [checkInDate, setCheckInDate] = useState(null);
+    const [checkOutDate, setCheckOutDate] = useState(null);
+
+    const handleCheckInDate = (date)=>{
+        setCheckInDate(date);
+        setCheckOutDate(null);
+    }
+    
+    const handleCheckOutDate = setCheckOutDate;
   return (
     <Box sx={{"@media (max-width:45rem)" : {
       float : "none"
@@ -179,16 +190,11 @@ function Booker({
         </div>
       </Flex>
       <div>
-        <Flex>
-          <label htmlFor="checkin" w="50%">
-            <span style={{ padding: '0 1rem' }}>Check-in Date</span>
-            <Input variant="filled" w="100%" placeholder="Check-in Date" type="date" name="checkin" />
-          </label>
-          <label htmlFor="checkout" w="50%">
-            <span style={{ padding: '0 1rem' }}>Check-out Date</span>
-            <Input variant="filled" w="100%" placeholder="Check-out Date" type="date" name="checkout" />
-          </label>
-        </Flex>
+        <Datepicker 
+            checkInDate={checkInDate} 
+            checkOutDate={checkOutDate} 
+            handleCheckInDate={handleCheckInDate} 
+            handleCheckOutDate={handleCheckOutDate} />
         <Select variant="filled">
           <option>1 Guest</option>
           <option>2 Guests</option>
@@ -198,7 +204,7 @@ function Booker({
           <option>6 Guests</option>
         </Select>
       </div>
-      <Button w="100%" mt="0.5rem" bgColor="#97c7ae" onClick={onBook}>Reserve</Button>
+      <Button w="100%" mt="0.5rem" bgColor="#97c7ae" onClick={()=>onBook(checkInDate, checkOutDate)}>Reserve</Button>
     </Box>
   );
 }

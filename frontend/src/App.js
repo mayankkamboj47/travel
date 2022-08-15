@@ -6,6 +6,7 @@ import Profile from './Profile';
 import Search from './Search';
 import HotelPage from './HotelPage';
 import { LoginForm, SignUpForm } from './Forms';
+import { Datepicker } from './Datepicker.js';
 
 function App() {
   return (
