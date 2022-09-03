@@ -2,20 +2,12 @@ Make a portal and use that to display a login and signup modal
   - Use frosted glass effect in the modal
 On the backend, try to make it so that PUT, POST work when used with passport
 
-Make the hotelpage and other pages responsive (done)
-Make the images on the homepage optimised
+Make the images optimised
 
-Testing : 
+Add some tests (in process)
 
-1. The homepage should 
-   a. Have a hero, an about and a footer
-   b. The hero should, have a button and some text. The button should be
-   clickable and send you to a different page with some url. Ideally, it
-   should have a href value in the containing anchor
-   c. There should be a link to github
-   d. There should be a link to my website
-   e. Later (test on linux) : there should be no errors in eslint
-
+On the backend, a request to /user/wishlist should return [] rather than an error if the user
+is not logged in. It is a saner default. 
 
 2. The hotelpage should
    Have a title, some images, and text. 
@@ -39,5 +31,4 @@ Testing :
    the entire hotel information in a popup with a blurry pretty background. 
    This modal should first be responsive and only then pretty. It should have
    a cross button to click on. Also a good chance to learn portals.
-
 

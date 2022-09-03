@@ -23,7 +23,7 @@ export function loadList(data, isLoading, hasError, render) {
   if (hasError) {
     return <p>Something nasty happened on our server or on your end</p>;
   }
-  return data.length ? render(data) : <p>Wow, so empty</p>;
+  return data.length ? <div id='searchResults'>{render(data)}</div> : <p>Wow, so empty</p>;
 }
 
 export function loadData(url) {
