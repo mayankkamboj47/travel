@@ -22,13 +22,13 @@ export default function Filterable({
 }) {
   additionalFilters = additionalFilters || {};
   // define some constants to avoid using magic numbers
-  const ranges = {
-    price: [0, 10000],
-    rating: [1, 5],
-  };
+  const ranges = Object.freeze({
+    price: Object.freeze([0, 10000]),
+    rating: Object.freeze([1, 5]),
+  });
   // start defining things we can filter with
-  const [page, setPage] = useState(0); // page Number
-  // yes or no filters. Does this place have a ...
+  const [page, setPage] = useState(0); // page number for pagination
+  // yes or no filters (aka toggles). Does this place have a ...
   const kitchen = useState(false);
   const wifi = useState(false);
   const freeParking = useState(false);
@@ -41,7 +41,7 @@ export default function Filterable({
     price: 'Cost (INR ₹)',
     rating: 'Rating',
   };
-  // And for toggles
+  // And for toggle buttons (filters which have an on/off value)
   const toggles = { Kitchen: kitchen, 'Free parking': freeParking, Wifi: wifi };
   const sliderStates = { price, rating };
   /*
