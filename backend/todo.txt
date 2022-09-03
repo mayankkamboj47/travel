@@ -1,7 +1,1 @@
-POST /bookhotel {hotel : _id}
-/search/name='sth'&place='Jamshedpur'&price='<2&>4'
-- Decide the formatting for the search string, and make a quick parser 
-- See if there is a quick way to encode and decode objects to url strings, 
-which will make us able to skip the former step.
-
-Login is broken. Figure why. 
+Remove support for facebook, google logins. Add them later when everything else is stable. 
