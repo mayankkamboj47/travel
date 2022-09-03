@@ -1,26 +1,16 @@
 # eTravel project
 
-Created for Advanced Programming class by Mayank Kamboj, Karan Handa and Ashwin Salampuria.
+Just another eTravel Project
 
 ## Setting up the app
 
-Just clone the git repository, and run `npm install` or `yarn install`
+Just clone the git repository, and run `npm install` or `yarn install` in both the frontend and backend folders. Now, also run npm start in both the folders (you will
+need two different terminal windows/tabs probably).
 
-## Useful commands
+## Notes
 
-In the project directory, you can run:
-
-### `yarn start` or `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The frontend starts on 'http://localhost:3000' and the backend sits on 'http://localhost:3001' for now. 
 
 ## Running the tests
 
-### `yarn e2e` or `npm e2e`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Get cypress (https://www.cypress.io). When you've run the frontend and backend servers, you can manually load the test files in frontend/cypress in cypress, and the tests will run. After the initial setup is done, the tests will re-run themselves when the files update. 
