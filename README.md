@@ -1,3 +1,3 @@
 # travel
 
-Just another eTravel website
+This is yet another travel website, built using the MERN stack
